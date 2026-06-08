@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html
+    lang="<%= locale %>"
+    dir="<%= locale === 'ar' ? 'rtl' : 'ltr' %>"
+    class="layout-navbar-fixed layout-menu-fixed layout-compact"
+    data-skin="default"
+    data-assets-path="/admin/assets/"
+    data-template="vertical-menu-template"
+    data-bs-theme="light" >
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport"content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+
+        <title><%= title %> | <%= appName %></title>
+
+        <meta name="description" content="" />
+
+        <!-- Favicon -->
+        <link
+        rel="icon"type="image/x-icon"href="/admin/assets/img/logo/logo.png" />
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap" rel="stylesheet" />
+
+        <link rel="stylesheet" href="/admin/assets/vendor/fonts/iconify-icons.css" />
+
+        <!-- Core CSS -->
+        <!-- build:css /admin/assets/vendor/css/theme.css  -->
+        <link rel="stylesheet" href="/admin/assets/vendor/libs/node-waves/node-waves.css" />
+        <link rel="stylesheet" href="/admin/assets/vendor/libs/pickr/pickr-themes.css" />
+        <link rel="stylesheet" href="/admin/assets/vendor/css/core.css" />
+        <link rel="stylesheet" href="/admin/assets/css/demo.css" />
+
+        <!-- Vendors CSS -->
+        <link rel="stylesheet" href="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+        <!-- endbuild -->
+        <link rel="stylesheet" href="/admin/assets/vendor/libs/apex-charts/apex-charts.css" />
+        <link rel="stylesheet" href="/admin/assets/vendor/libs/swiper/swiper.css" />
+        <link rel="stylesheet" href="/admin/assets/vendor/fonts/flag-icons.css" />
+        <link rel="stylesheet" href="/admin/assets/vendor/css/intl-tel-input/intlTelInput.css" />
+        <link rel="stylesheet" href="/admin/assets/vendor/libs/@form-validation/form-validation.css" />
+        <link rel="stylesheet" href="/admin/assets/vendor/libs/notiflix/notiflix.css" />
+
+        <!-- Page CSS -->
+        <link rel="stylesheet" href="/admin/assets/vendor/css/pages/cards-advance.css" />
+        <link rel="stylesheet" href="/admin/assets/vendor/fonts/fontawesome.css" />
+
+        <!-- Helpers -->
+        <script src="/admin/assets/vendor/js/helpers.js"></script>
+        <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+
+        <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+        <!-- <script src="/admin/assets/vendor/js/template-customizer.js"></script> -->
+
+        <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+        <script src="/admin/assets/js/config.js"></script>
+
+        <style>
+            :root {
+                --bs-primary: <%= theme.primary %>;
+                --bs-primary-rgb: <%= (function(hex) {
+                    var r = parseInt(hex.slice(1, 3), 16);
+                    var g = parseInt(hex.slice(3, 5), 16);
+                    var b = parseInt(hex.slice(5, 7), 16);
+                    return r + ", " + g + ", " + b;
+                })(theme.primary) %>;
+            }
+            .btn-primary {
+                --bs-btn-bg: <%= theme.primary %>;
+                --bs-btn-border-color: <%= theme.primary %>;
+                --bs-btn-hover-bg: <%= theme.primary %>;
+                --bs-btn-hover-border-color: <%= theme.primary %>;
+                --bs-btn-active-bg: <%= theme.primary %>;
+                --bs-btn-active-border-color: <%= theme.primary %>;
+                --bs-btn-disabled-bg: <%= theme.primary %>;
+                --bs-btn-disabled-border-color: <%= theme.primary %>;
+            }
+        </style>
+
+        <script>
+            window.themeConfig = <%- JSON.stringify(theme) %>;
+        </script>
+
+        <%- style %>
+    </head>
+
+    <body>
+        <!-- Layout wrapper -->
+        <div class="layout-wrapper layout-content-navbar">
+            <div class="layout-container">
+                <!-- Menu -->
+
+                <%- include('../partials/sidebar') %>
+
+                <div class="menu-mobile-toggler d-xl-none rounded-1">
+                <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large text-bg-secondary p-2 rounded-1" >
+                    <i class="ti tabler-menu icon-base"></i>
+                    <i class="ti tabler-chevron-right icon-base"></i>
+                </a>
+                </div>
+                <!-- / Menu -->
+
+                <!-- Layout container -->
+                <div class="layout-page">
+                <!-- Navbar -->
+
+                <%- include('../partials/navbar') %>
+
+                <!-- / Navbar -->
+
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+                    <!-- Content -->
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="content-body">
+                            <%- include('../partials/_breadcrumb', { breadcrumb: breadcrumb || [], title: title, addNew: addNewButton }) %>
+                            <%- body %>
+                        </div>
+                    </div>
+                    <!-- / Content -->
+
+                    <!-- Footer -->
+                    <%- include('../partials/footer') %>
+                    <!-- / Footer -->
+
+                    <div class="content-backdrop fade"></div>
+                </div>
+                <!-- Content wrapper -->
+                </div>
+                <!-- / Layout page -->
+            </div>
+
+            <!-- Overlay -->
+            <div class="layout-overlay layout-menu-toggle"></div>
+
+            <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+            <div class="drag-target"></div>
+        </div>
+        <!-- / Layout wrapper -->
+
+        <!-- Core JS -->
+        <!-- build:js /admin/assets/vendor/js/theme.js -->
+
+        <script src="/admin/assets/vendor/libs/jquery/jquery.js"></script>
+        <script src="/admin/assets/vendor/libs/popper/popper.js"></script>
+        <script src="/admin/assets/vendor/js/bootstrap.js"></script>
+        <script src="/admin/assets/vendor/libs/node-waves/node-waves.js"></script>
+        <script src="/admin/assets/vendor/libs/daterangepicker/moment.min.js"></script>
+        <script src="/admin/assets/vendor/libs/@algolia/autocomplete-js.js"></script>
+        <script src="/admin/assets/vendor/libs/pickr/pickr.js"></script>
+        <script src="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="/admin/assets/vendor/libs/hammer/hammer.js"></script>
+        <script src="/admin/assets/vendor/js/menu.js"></script>
+
+        <!-- endbuild -->
+
+        <!-- Vendors JS -->
+        <script src="/admin/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+        <script src="/admin/assets/vendor/libs/swiper/swiper.js"></script>
+        <script src="/admin/assets/vendor/libs/@form-validation/popular.js"></script>
+        <script src="/admin/assets/vendor/libs/@form-validation/bootstrap5.js"></script>
+        <script src="/admin/assets/vendor/libs/@form-validation/auto-focus.js"></script>
+        <script src="/admin/assets/vendor/js/intl-tel-input/intlTelInput.min.js"></script>
+        <script src="/admin/assets/vendor/libs/notiflix/notiflix.js"></script>
+        
+        <!-- i18next core and plugins -->
+        <script src="/admin/assets/vendor/libs/i18n/i18next.min.js"></script>
+        <script src="/admin/assets/vendor/libs/i18n/i18nextHttpBackend.min.js"></script>
+
+        <!-- Main JS -->
+        <script src="/admin/assets/js/main.js"></script>
+
+        <!-- Page JS -->
+        <script src="/admin/assets/js/dashboards-analytics.js"></script>
+
+        <script src="/admin/assets/js/pages/admin/common.js"></script>
+
+        <script>
+        // Notiflix.Loading.standard('Loading...');
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     Notiflix.Loading.remove();
+        // });
+        //
+        
+        // Notiflix message in language translation
+        var trl = "<%= locale %>" == "ar" ? true : false;
+            var position = trl === true ? 'left-top' : 'right-top';
+            Notiflix.Notify.init({
+                rtl: trl,
+                position: position,
+            });
+        </script>
+
+        <!-- Notiflix messages -->
+        <% for (const type of ['success', 'failure', 'error' , 'warning' , 'info' ])
+        { %> <% if (locals[type] && locals[type].length) { %> <%
+        locals[type].forEach(msg=> { %>
+        <script>
+            Notiflix.Notify.<%= type %> ('<%= msg %>', {
+                clickToClose: true
+            });
+        </script>
+        <% }) %> <% } %> <% } %>
+
+        <script>
+            const initI18n = async (locale) => {
+                if (i18next.isInitialized) return i18next;
+
+                await i18next.use(i18nextHttpBackend).init({
+                fallbackLng: locale,
+                debug: false,
+                backend: {
+                    loadPath: "/config/locales/{{lng}}.json?v=" + new Date().getTime(),
+                },
+                });
+
+                return i18next;
+            };
+            var i18n;
+            window.i18nReady = (async () => {
+                i18n = await initI18n("<%= locale %>");
+            })();
+            
+            window.permissions = <%- JSON.stringify(admin.permissions) %>;
+        </script>
+
+        <%- script %>
+    </body>
+</html>

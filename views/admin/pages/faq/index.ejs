@@ -1,0 +1,167 @@
+<!-- DataTable with Buttons -->
+ <%- include('../../partials/alert_message') %>
+<link rel="stylesheet" href="/admin/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+<link rel="stylesheet" href="/admin/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+<link rel="stylesheet" href="/admin/assets/vendor/libs/select2/select2.css" />
+<div class="card mt-4">
+    <div class="card-datatable table-responsive pt-0">
+        <table id="faqs-datatable" class="datatables-basic table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th><%= __('ID') %></th>
+                    <th><%= __('Role') %></th>
+                    <th><%= __('Question') %></th>
+                    <th><%= __('Status') %></th>
+                    <th><%= __('Created At') %></th>
+                    <th><%= __('Action') %></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<!-- Modal to add new record -->
+<div class="offcanvas offcanvas-end" id="add-new-record">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title" id="exampleModalLabel"><%= __('Add FAQ') %></h5>
+        <button
+        type="button"
+        class="btn-close text-reset"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body flex-grow-1">
+        <form class="add-new-record pt-0 row g-2" id="formAddFaq" action="faq/store" method="POST">
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="role">
+                    <%= __('Role') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <select id="role" class="select2 form-select dt-role" name="role" data-allow-clear="true">
+                    <option value=""><%= __('Select Role')  %></option>
+                    <option value="admin"><%= __('Admin') %></option>
+                    <option value="web"><%= __('Web') %></option>
+                </select>
+                <% if (errors && errors.role) { %>
+                    <p style="color:red;"><%= errors.role %></p>
+                <% } %>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="question">
+                    <%= __('Question') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                <span id="question" class="input-group-text"><i class="icon-base ti tabler-question-mark"></i></span>
+                <input
+                    type="text"
+                    id="question"
+                    class="form-control dt-question left_space_remove"
+                    name="question"
+                    placeholder="<%= __('Enter your question') %>"
+                    aria-label="<%= __('Question') %>"
+                    aria-describedby="question" />
+                    <% if (errors && errors.question) { %>
+                        <p style="color:red;"><%= errors.question %></p>
+                    <% } %>
+                </div>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="answer">
+                    <%= __('Answer') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                <span class="input-group-text"><i class="icon-base ti tabler-transform"></i></span>
+                <textarea
+                    rows="3"
+                    id="answer"
+                    name="answer"
+                    class="form-control dt-answer left_space_remove"
+                    placeholder="<%= __('Enter your answer') %>"
+                    aria-label="<%= __('Answer') %>"></textarea>
+                </div>
+                <% if (errors && errors.answer) { %>
+                    <p style="color:red;"><%= errors.answer %></p>
+                <% } %>
+            </div>
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary data-submit me-sm-4 me-1"><%= __('Submit') %></button>
+                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas"><%= __('Cancel') %></button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal to update record -->
+<div class="offcanvas offcanvas-end" id="update-record">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title" id="exampleModalLabel"><%= __('Edit FAQ') %></h5>
+        <button
+        type="button"
+        class="btn-close text-reset"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body flex-grow-1">
+        <form class="udate-record pt-0 row g-2" id="formUpdateFaq" action="" method="POST">
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="edit_role">
+                    <%= __('Role') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <select id="edit_role" class="select2 form-select dt-role" name="role" data-allow-clear="true">
+                    <option value=""><%= __('Select Role')  %></option>
+                    <option value="admin"><%= __('Admin') %></option>
+                    <option value="web"><%= __('Web') %></option>
+                </select>
+                <% if (errors && errors.role) { %>
+                    <p style="color:red;"><%= errors.role %></p>
+                <% } %>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="edit_question">
+                    <%= __('Question') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                <span class="input-group-text"><i class="icon-base ti tabler-question-mark"></i></span>
+                <input
+                    type="text"
+                    id="edit_question"
+                    class="form-control dt-question left_space_remove"
+                    name="question"
+                    placeholder="<%= __('Enter your question') %>"
+                    aria-label="<%= __('Question') %>"
+                    aria-describedby="question" />
+                    <% if (errors && errors.question) { %>
+                        <p style="color:red;"><%= errors.question %></p>
+                    <% } %>
+                </div>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="edit_answer">
+                    <%= __('Answer') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                <span class="input-group-text"><i class="icon-base ti tabler-transform"></i></span>
+                <textarea
+                    rows="3"
+                    id="edit_answer"
+                    name="answer"
+                    class="form-control dt-answer left_space_remove"
+                    placeholder="<%= __('Enter your answer') %>"
+                    aria-label="<%= __('Answer') %>"></textarea>
+                </div>
+                <% if (errors && errors.answer) { %>
+                    <p style="color:red;"><%= errors.answer %></p>
+                <% } %>
+            </div>
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary data-submit me-sm-4 me-1"><%= __('Submit') %></button>
+                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas"><%= __('Cancel') %></button>
+            </div>
+        </form>
+    </div>
+</div>
+              
+<!-- <hr class="my-12" /> -->
+<script src="/admin/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+<script src="/admin/assets/vendor/libs/select2/select2.js"></script>
+<script src="/admin/assets/js/pages/admin/faq/index.js"></script>

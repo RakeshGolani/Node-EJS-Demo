@@ -1,0 +1,373 @@
+<link rel="stylesheet" href="/admin/assets/vendor/libs/select2/select2.css" />
+
+<div class="row mt-6">
+    <!-- Navigation -->
+    <div class="col-lg-3 col-md-4 col-12 mb-md-0 mb-4">
+        <div class="d-flex justify-content-between flex-column nav-align-left mb-2 mb-md-0">
+            <ul class="nav nav-pills flex-column">
+                <% faq.forEach((item, index) => { %>
+                    <li class="nav-item">
+                        <button 
+                            class="nav-link <%= index === 0 ? 'active' : '' %>" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#role-<%= index %>">
+                            <!-- <i class="icon-base ti tabler-drone icon-sm faq-nav-icon me-1_5"></i> -->
+                            <span class="align-middle">
+                                <%= item.question.length > 30 ? item.question.substring(0, 30) + '...' : item.question %>
+                            </span>
+                        </button>
+                    </li>
+                <% }) %>
+            </ul>
+            <div class="d-none d-md-block">
+                <div class="mt-4">
+                    <img
+                        src="/admin/assets/img/illustrations/girl-sitting-with-laptop.png"
+                        class="img-fluid"
+                        width="270"
+                        alt="FAQ Image" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Navigation -->
+
+    <!-- FAQ's -->
+    <div class="col-lg-9 col-md-8 col-12">
+        <div class="tab-content p-0">
+            <% faq.forEach((item, index) => { %>
+                <div class="tab-pane fade <%= index === 0 ? 'show active' : '' %>" id="role-<%= index %>" role="tabpanel">
+                    <div class="d-flex mb-4 gap-4 align-items-center">
+                        <div>
+                            <span class="badge bg-label-primary rounded h-px-50 py-2">
+                            <i class="icon-base ti tabler-drone icon-30px"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <h5 class="mb-0">
+                                <span class="align-middle"><%= item.question %> | <%= __(item.role) %></span>
+                            </h5>
+                            <!-- Dropdown -->
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="icon-base ti tabler-dots-vertical"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item waves-effect"
+                                        role="button"
+                                        data-id="<%= item.id %>"
+                                        data-url="/admin/faq/update/<%= item.id %>"
+                                        data-bs-toggle="offcanvas"
+                                        data-bs-target="#update-record"
+                                        title="<%= __('Edit') %>">
+                                        <i class="icon-base ti tabler-pencil me-1"></i> <%= __('Edit') %>
+                                    </a>
+                                    <a class="dropdown-item waves-effect text-danger"
+                                        role="button"
+                                        onclick="deleteRecord('Faq', <%= item.id %>)"
+                                        title="<%= __('Delete') %>">
+                                        <i class="icon-base ti tabler-trash me-1"></i> <%= __('Delete') %>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accordion -->
+                    <div id="accordion-<%= index %>" class="accordion">
+                        <div class="card accordion-item active">
+                            <div id="accordionPayment-<%= index %>" class="accordion-collapse collapse show">
+                                <div class="accordion-body">
+                                    <%= item.answer %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+    <!-- /FAQ's -->
+</div>
+
+<!-- Modal to add new record -->
+<div class="offcanvas offcanvas-end" id="add-new-record" data-bs-scroll="true">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title" id="exampleModalLabel"><%= __('Add FAQ') %></h5>
+        <button
+        type="button"
+        class="btn-close text-reset"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body flex-grow-1">
+        <form class="add-new-record pt-0 row g-2" id="formAddFaq" action="faq/store" method="POST">
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="role">
+                    <%= __('Role') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <select id="role" class="select2 form-select dt-role" name="role" data-allow-clear="true">
+                    <option value=""><%= __('Select Role')  %></option>
+                    <option value="admin"><%= __('Admin') %></option>
+                    <option value="web"><%= __('Web') %></option>
+                </select>
+                <% if (errors && errors.role) { %>
+                    <p style="color:red;"><%= errors.role %></p>
+                <% } %>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="question">
+                    <%= __('Question') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                <span id="question" class="input-group-text"><i class="icon-base ti tabler-question-mark"></i></span>
+                <input
+                    type="text"
+                    id="question"
+                    class="form-control dt-question left_space_remove"
+                    name="question"
+                    placeholder="<%= __('Enter your question') %>"
+                    aria-label="<%= __('Question') %>"
+                    aria-describedby="question" />
+                    <% if (errors && errors.question) { %>
+                        <p style="color:red;"><%= errors.question %></p>
+                    <% } %>
+                </div>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="answer">
+                    <%= __('Answer') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text"><i class="icon-base ti tabler-transform"></i></span>
+                    <textarea
+                        rows="3"
+                        id="answer"
+                        name="answer"
+                        class="form-control dt-answer left_space_remove"
+                        placeholder="<%= __('Enter your answer') %>"
+                        aria-label="<%= __('Answer') %>"></textarea>
+                </div>
+                <% if (errors && errors.answer) { %>
+                    <p style="color:red;"><%= errors.answer %></p>
+                <% } %>
+            </div>
+            <!-- <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="question_ar">
+                    <%= __('Question Arabic') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                <span id="question_ar" class="input-group-text"><i class="icon-base ti tabler-question-mark"></i></span>
+                <input
+                    type="text"
+                    id="question_ar"
+                    class="form-control dt-question left_space_remove"
+                    name="question_ar"
+                    placeholder="<%= __('Enter your question Arabic') %>"
+                    aria-label="<%= __('Question Arabic') %>"
+                    aria-describedby="question_ar" />
+                    <% if (errors && errors.question_ar) { %>
+                        <p style="color:red;"><%= errors.question_ar %></p>
+                    <% } %>
+                </div>
+            </div> -->
+            <!-- <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="answer_ar">
+                    <%= __('Answer Arabic') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text"><i class="icon-base ti tabler-transform"></i></span>
+                    <textarea
+                        rows="3"
+                        id="answer_ar"
+                        name="answer_ar"
+                        class="form-control dt-answer left_space_remove"
+                        placeholder="<%= __('Enter your answer Arabic') %>"
+                        aria-label="<%= __('Answer Arabic') %>"></textarea>
+                </div>
+                <% if (errors && errors.answer_ar) { %>
+                    <p style="color:red;"><%= errors.answer_ar %></p>
+                <% } %>
+            </div> -->
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary data-submit me-sm-4 me-1"><%= __('Submit') %></button>
+                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas"><%= __('Cancel') %></button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal to update record -->
+<div class="offcanvas offcanvas-end" id="update-record" data-bs-scroll="true">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title" id="exampleModalLabel"><%= __('Edit FAQ') %></h5>
+        <button
+        type="button"
+        class="btn-close text-reset"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body flex-grow-1">
+        <form class="udate-record pt-0 row g-2" id="formUpdateFaq" action="" method="POST">
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="edit_role">
+                    <%= __('Role') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <select id="edit_role" class="select2 form-select dt-role" name="role" data-allow-clear="true">
+                    <option value=""><%= __('Select Role')  %></option>
+                    <option value="admin"><%= __('Admin') %></option>
+                    <option value="web"><%= __('Web') %></option>
+                </select>
+                <% if (errors && errors.role) { %>
+                    <p style="color:red;"><%= errors.role %></p>
+                <% } %>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="edit_question">
+                    <%= __('Question') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                <span class="input-group-text"><i class="icon-base ti tabler-question-mark"></i></span>
+                <input
+                    type="text"
+                    id="edit_question"
+                    class="form-control dt-question left_space_remove"
+                    name="question"
+                    placeholder="<%= __('Enter your question') %>"
+                    aria-label="<%= __('Question') %>"
+                    aria-describedby="question" />
+                    <% if (errors && errors.question) { %>
+                        <p style="color:red;"><%= errors.question %></p>
+                    <% } %>
+                </div>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="edit_answer">
+                    <%= __('Answer') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text"><i class="icon-base ti tabler-transform"></i></span>
+                    <textarea
+                        rows="3"
+                        id="edit_answer"
+                        name="answer"
+                        class="form-control dt-answer left_space_remove"
+                        placeholder="<%= __('Enter your answer') %>"
+                        aria-label="<%= __('Answer') %>"></textarea>
+                </div>
+                <% if (errors && errors.answer) { %>
+                    <p style="color:red;"><%= errors.answer %></p>
+                <% } %>
+            </div>
+            <!-- <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="edit_question_ar">
+                    <%= __('Question Arabic') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                <span id="question_ar" class="input-group-text"><i class="icon-base ti tabler-question-mark"></i></span>
+                <input
+                    type="text"
+                    id="edit_question_ar"
+                    class="form-control dt-question left_space_remove"
+                    name="question_ar"
+                    placeholder="<%= __('Enter your question Arabic') %>"
+                    aria-label="<%= __('Question Arabic') %>"
+                    aria-describedby="question_ar" />
+                    <% if (errors && errors.question_ar) { %>
+                        <p style="color:red;"><%= errors.question_ar %></p>
+                    <% } %>
+                </div>
+            </div> -->
+            <!-- <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="edit_answer_ar">
+                    <%= __('Answer Arabic') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                    <span id="answer_ar" class="input-group-text"><i class="icon-base ti tabler-transform"></i></span>
+                    <textarea
+                        rows="3"
+                        id="edit_answer_ar"
+                        name="answer_ar"
+                        class="form-control dt-answer left_space_remove"
+                        placeholder="<%= __('Enter your answer Arabic') %>"
+                        aria-label="<%= __('Answer Arabic') %>"></textarea>
+                </div>
+                <% if (errors && errors.answer_ar) { %>
+                    <p style="color:red;"><%= errors.answer_ar %></p>
+                <% } %>
+            </div> -->
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary data-submit me-sm-4 me-1"><%= __('Submit') %></button>
+                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas"><%= __('Cancel') %></button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/admin/assets/vendor/libs/select2/select2.js"></script>
+<script src="/admin/assets/js/pages/admin/faq/details.js"></script>
+
+
+<!-- <div class="row mt-6">
+    <div class="col-lg-3 col-md-4 col-12 mb-md-0 mb-4">
+        <div class="d-flex justify-content-between flex-column nav-align-left mb-2 mb-md-0">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#role">
+                        <i class="icon-base ti tabler-drone icon-sm faq-nav-icon me-1_5"></i>
+                        <span class="align-middle"><%= faq.role %></span>
+                    </button>
+                </li>
+            </ul>
+            <div class="d-none d-md-block">
+                <div class="mt-4">
+                    <img
+                        src="/admin/assets/img/illustrations/girl-sitting-with-laptop.png"
+                        class="img-fluid"
+                        width="270"
+                        alt="FAQ Image" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-9 col-md-8 col-12">
+        <div class="tab-content p-0">
+            <div class="tab-pane fade show active" id="role" role="tabpanel">
+                <div class="d-flex mb-4 gap-4 align-items-center">
+                    <div>
+                        <span class="badge bg-label-primary rounded h-px-50 py-2">
+                        <i class="icon-base ti tabler-drone icon-30px"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <h5 class="mb-0">
+                        <span class="align-middle"><%= faq.role %></span>
+                        </h5>
+                    </div>
+                </div>
+                <div id="accordionPayment" class="accordion">
+                    <div class="card accordion-item active">
+                        <h2 class="accordion-header">
+                        <button
+                            class="accordion-button"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            aria-expanded="true"
+                            data-bs-target="#accordionPayment-1"
+                            aria-controls="accordionPayment-1">
+                            <%= faq.question %>
+                        </button>
+                        </h2>
+
+                        <div id="accordionPayment-1" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <%= faq.answer %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

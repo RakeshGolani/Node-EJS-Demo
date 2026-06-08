@@ -1,0 +1,38 @@
+APP_NAME=Excellent Webworld
+APP_ENV=development
+APP_URL=http://127.0.0.1:3000
+PORT=3000
+DB_PORT=3306
+DB_DIALECT=mysql
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=demo
+DB_HOST=127.0.0.1
+SESSION_SECRET=demo
+UPLOAD_PATH=../public/assets/uploads
+REPLACE_FILE_PATH=/var/www/public
+
+APP_SETTING_PASSWORD=12345678
+
+# SMTP configuration
+SMTP_HOST=
+SMTP_PORT=
+SMTP_USER=
+SMTP_PASSWORD=
+SMTP_FROM_EMAIL=
+SMTP_FROM_NAME=${APP_NAME}
+
+APP_TIMEZONE=Asia/Kolkata
+DATE_FORMAT=DD-MM-YYYY
+TIME_FORMAT=hh:mm A
+DATE_TIME_FORMAT=DD-MM-YYYY hh:mm A
+
+# JWT configuration
+JWT_SECRET='your_jwt_secret_key'
+JWT_REFRESH_SECRET='your_jwt_refresh_secret_key'
+
+# Token expirations in seconds
+ACCESS_TOKEN_EXPIRE=900 # 15 minutes
+REFRESH_TOKEN_EXPIRE=604800 # 7 days
+
+GOOGLE_MAP_KEY=

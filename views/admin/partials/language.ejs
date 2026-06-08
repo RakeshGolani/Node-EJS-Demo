@@ -1,0 +1,15 @@
+<a class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill waves-effect" href="javascript:void(0);" data-bs-toggle="dropdown">
+    <i class="icon-base ti tabler-language icon-22px text-heading"></i>
+</a>
+<ul class="dropdown-menu dropdown-menu-end">
+    <li>
+        <a class="dropdown-item waves-effect <%= local === 'en' ? 'active' : '' %>" href="/admin/language/en">
+            <span>English</span>
+        </a>
+    </li>
+    <li>
+        <a class="dropdown-item waves-effect <%= local === 'ar' ? 'active' : '' %>" href="/admin/language/ar">
+            <span><%= __('Arabic') %></span>
+        </a>
+    </li>
+</ul>

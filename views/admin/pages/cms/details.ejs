@@ -1,0 +1,39 @@
+<div class="col-md-12 col-xxl-12 mb-6">
+    <div class="card h-100">
+        <div class="card-body p-0">
+            <div class="nav-align-top">
+                <div class="tab-content border-0 mx-1">
+                    <div class="tab-pane fade show active" id="navs-justified-new" role="tabpanel">
+                        <ul class="timeline mb-0">
+                            <li class="timeline-item ps-6 border-dashed">
+                                <span class="timeline-indicator-advanced timeline-indicator-success border-0 shadow-none">
+                                    <i class="icon-base ti tabler-circle-check"></i>
+                                </span>
+                                <div class="timeline-event ps-1">
+                                    <div class="timeline-header">
+                                        <small class="text-success text-uppercase"><%= local === 'en' ? cms.name : cms.name_ar %></small>
+                                    </div>
+                                    <h6 class="my-50 text-uppercase"><%= cms.panel %></h6>
+                                    <p class="text-body mb-0"><%- local === 'en' ? cms.content : cms.content_ar %></p>
+                                </div>
+                            </li>
+                            <li class="timeline-item ps-6 border-0">
+                                <span class="timeline-indicator-advanced timeline-indicator-primary border-0 shadow-none">
+                                    <i class="icon-base ti tabler-calendar-month"></i>
+                                </span>
+                                <div class="timeline-event ps-1">
+                                    <div class="timeline-header">
+                                        <small class="text-primary text-uppercase">Created At</small>
+                                    </div>
+                                    <h6 class="my-50"><%= moment(cms.createdAt).format(process.env.DATE_TIME_FORMAT) %></h6>
+                                    <!-- <p class="text-body mb-0">939 Orange, California(CA), 92118</p> -->
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="border-1 border-light border-dashed my-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

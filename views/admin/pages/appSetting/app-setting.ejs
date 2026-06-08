@@ -1,0 +1,156 @@
+
+<div class="col-xl-12 col-lg-12">
+	<!--begin::Card-->
+	<div class="card">
+		<div class="card-body">
+			<form method="POST" action="app-settings/update"
+				class="form fv-plugins-bootstrap5 fv-plugins-framework mt-3" id="app_update_form">
+				
+				<div class="table-responsive">
+					<table class="table table-rounded table-row-bordered border border-gray-300 gy-7 gs-7">
+						<thead>
+							<tr class="fw-semibold fs-6 text-gray-900 border-bottom-2 border-gray-300">
+								<th>App Name</th>
+								<th>Version</th>
+								<th class="text-end">Compulsory Update ?</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% if (appSettings) { %>
+								<% appSettings.forEach((settings, key) => { %>
+									<% if (settings.app_name != 'maintenance_mode') { %>
+										<tr>
+											<td>
+												<%= settings.app_name
+													.split('_')
+													.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+													.join(' ') %>
+											</td>
+											<td>
+												<input type="text"
+														name="setting[<%= settings.app_name %>]"
+														id="setting_<%= settings.id %>"
+														class="form-control form-control-lg form-control-solid maxlengt <%= errors && errors["setting." + settings.app_name] ? 'is-invalid' : '' %>"
+														placeholder="Setting"
+														maxlength="15"
+														value="<%= old && old['setting[' + settings.app_name + ']'] ? old['setting[' + settings.app_name + ']'] : settings.setting %>">
+												<% if (errors && errors["setting." + settings.app_name]) { %>
+													<p style="color:red;"><%= errors["setting." + settings.app_name] %></p>
+												<% } %>
+											</td>
+
+											<td class="text-end">
+												<!--begin::Label-->
+												<div class="d-flex justify-content-end">
+													<div
+														class="form-check form-switch form-check-custom form-check-primary form-check-solid">
+														<input class="form-check-input h-40px w-60px" type="checkbox"
+															name="compulsory[<%= settings.app_name %>]" value="yes" <%= old && old['compulsory[' + settings.app_name + ']'] ? 'checked' : (settings.compulsory == 'yes' ? 'checked' : '') %> />
+													</div>
+												</div>
+												<!--begin::Label-->
+											</td>
+										</tr>
+									<% } %>
+								<% }); %>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+				<div class="table-responsive mt-5">
+					<table class="table table-rounded table-row-bordered border border-gray-300 gy-7 gs-7">
+						<thead>
+							<tr class="fw-semibold fs-6 text-gray-900 border-bottom-2 border-gray-300">
+								<th>Maintance Mode</th>
+								<th class="text-end">Maintenance Mode Enable ?</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% if (appSettings) { %>
+								<% appSettings.forEach((settings, key) => { %>
+									<% if (settings.app_name == 'maintenance_mode') { %>
+										<tr>
+											<td>
+												<%= settings.app_name
+													.split('_')
+													.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+													.join(' ') %>
+											</td>
+											<td class="text-end">
+												<!--begin::Label-->
+												<div class="d-flex justify-content-end">
+													<div
+														class="form-check form-switch form-check-custom form-check-primary form-check-solid">
+														<input type="hidden" name="setting[<%= settings.app_name %>]"
+															value="0">
+														<input class="form-check-input h-40px w-60px" type="checkbox"
+															name="compulsory[<%= settings.app_name %>]" value="yes" <%= old && old['compulsory[' + settings.app_name + ']'] ? 'checked' : (settings.compulsory == 'yes' ? 'checked' : '') %> />
+													</div>
+												</div>
+												<!--begin::Label-->
+											</td>
+										</tr>
+									<% } %>
+								<% }); %>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+				<!--begin::Actions-->
+				<div class="card-footer d-flex justify-content-end py-6 px-9">
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+						data-bs-target="#password_modal">Save</button>
+				</div>
+				<!--end::Actions-->
+
+				<div class="modal fade" tabindex="-1" id="password_modal">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h3 class="modal-title">Update App Settings</h3>
+
+								<!--begin::Close-->
+								<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+									aria-label="Close">
+									<span class="svg-icon svg-icon-1"></span>
+								</div>
+								<!--end::Close-->
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<input type="text" 
+										name="setting_password" 
+										id="setting_password"
+										class="form-control form-control-lg form-control-solid maxlength <%= errors && errors.setting_password ? 'is-invalid' : '' %>"
+										placeholder="Setting Password" 
+										maxlength="15"
+										value="<%= old && old['setting_password'] ? old['setting_password'] : '' %>">
+
+									<% if (errors && errors.setting_password) { %>
+										<div class="invalid-feedback d-block">
+											<%= errors.setting_password %>
+										</div>
+									<% } %>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary">Save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!--end::Card-->
+</div>
+
+<!-- <script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const settingPasswordError = <%= errors && errors.setting_password ? 'true' : 'false' %>;
+		if (settingPasswordError) {
+			$("#password_modal").modal('show');
+		}
+	});
+</script> -->

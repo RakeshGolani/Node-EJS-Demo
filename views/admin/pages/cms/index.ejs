@@ -1,0 +1,89 @@
+<!-- DataTable with Buttons -->
+ <%- include('../../partials/alert_message') %>
+<link rel="stylesheet" href="/admin/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+<link rel="stylesheet" href="/admin/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+<link rel="stylesheet" href="/admin/assets/vendor/libs/quill/typography.css" />
+<link rel="stylesheet" href="/admin/assets/vendor/libs/highlight/highlight.css" />
+<link rel="stylesheet" href="/admin/assets/vendor/libs/quill/katex.css" />
+<link rel="stylesheet" href="/admin/assets/vendor/libs/quill/editor.css" />
+<div class="card">
+    <div class="card-datatable table-responsive pt-0">
+        <table id="cms-datatable" class="datatables-basic table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th><%= __('ID') %></th>
+                    <th><%= __('Name') %></th>
+                    <th><%= __('Role') %></th>
+                    <th><%= __('Created At') %></th>
+                    <th><%= __('Action') %></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="editCmsModal" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="text-center mb-6">
+                    <h4 class="mb-2"><%= __('Edit Cms Information') %></h4>
+                </div>
+                <form id="editCmsForm" action="" method="POST" class="row g-6">
+                    <div class="col-12 col-md-6 form-control-validation">
+                        <label class="form-label" for="name">
+                            <%= __('Name') %><span class="text-danger">&nbsp;*</span>
+                        </label>
+                        <input type="text" id="name" name="name" class="form-control left_space_remove" placeholder="<%= __('Enter your name') %>" value="">
+                        <% if (errors && errors.name) { %>
+                            <p style="color:red;"><%= errors.name %></p>
+                        <% } %>
+                    </div>
+
+                    <div class="col-12 col-md-6 form-control-validation">
+                        <label class="form-label" for="name_ar">
+                            <%= __('Name Ar') %><span class="text-danger">&nbsp;*</span>
+                        </label>
+                        <input type="text" id="name_ar" name="name_ar" class="form-control left_space_remove" placeholder="<%= __('Enter your name ar') %>" value="">
+                        <% if (errors && errors.name_ar) { %>
+                            <p style="color:red;"><%= errors.name_ar %></p>
+                        <% } %>
+                    </div>
+
+                    <div class="col-12 mt-1 form-control-validation">
+                        <label class="form-label" for="content">
+                            <%= __('Content') %><span class="text-danger">&nbsp;*</span>
+                        </label>
+                        <div class="">
+                            <div id="contentEditor"></div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-1 form-control-validation">
+                        <label class="form-label" for="content_ar">
+                            <%= __('Content Ar') %><span class="text-danger">&nbsp;*</span>
+                        </label>
+                        <div class="">
+                            <div id="contentArEditor"></div>
+                        </div>
+                    </div>
+                
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary me-3 waves-effect waves-light"><%= __('Submit') %></button>
+                        <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                        <%= __('Cancel') %>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/admin/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+<script src="/admin/assets/vendor/libs/quill/katex.js"></script>
+<script src="/admin/assets//vendor/libs/highlight/highlight.js"></script>
+<script src="/admin/assets/vendor/libs/quill/quill.js"></script>
+
+<script src="/admin/assets/js/pages/admin/cms/index.js"></script>

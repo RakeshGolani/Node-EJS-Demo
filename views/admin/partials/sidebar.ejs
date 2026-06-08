@@ -1,0 +1,83 @@
+<aside id="layout-menu" class="layout-menu menu-vertical menu">
+	<div class="app-brand demo">
+		<a href="/admin/dashboard" class="app-brand-link">
+			<span class="app-brand-logo demo">
+				<span class="text-primary">
+					<img src="/admin/assets/img/logo/logo.png" height="40" width="40" alt="Logo" />
+				</span>
+			</span>
+			<span class="app-brand-text demo menu-text fw-bold ms-3">Excellent Webworld</span>
+			 <!-- <div class="app-brand-text demo menu-text fw-bold ms-3">
+				<img src="/admin/assets/img/logo/excellentWebworldLogo.svg" height="70" width="70" alt="Logo" />
+			</div> -->
+		</a>
+
+		<a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+		<i class="icon-base ti menu-toggle-icon d-none d-xl-block"></i>
+		<i class="icon-base ti tabler-x d-block d-xl-none"></i>
+		</a>
+	</div>
+
+  	<div class="menu-inner-shadow"></div>
+
+  	<ul class="menu-inner py-1">
+		<!-- Dashboards -->
+		<li class="menu-item <%= currentRoute === '/admin/dashboard' ? 'active' : '' %>">
+			<a href="/admin/dashboard" class="menu-link">
+				<i class="menu-icon icon-base ti tabler-smart-home"></i>
+				<div data-i18n="Dashboards"><%= __('Dashboards') %></div>
+				<!-- <div class="badge text-bg-danger rounded-pill ms-auto">5</div> -->
+			</a>
+		</li>
+
+		<!-- Users -->
+		<li class="menu-item <%= currentRoute === '/admin/users' ? 'active' : '' %>">
+			<a href="/admin/users" class="menu-link">
+				<i class="menu-icon icon-base ti tabler-users"></i>
+				<div data-i18n="Users"><%= __('Users') %></div>
+			</a>
+		</li>
+
+
+		
+		<!-- Settings -->
+		<li class="menu-item <%= currentRoute.startsWith('/admin/faqs') || currentRoute.startsWith('/admin/contact-us') || currentRoute.startsWith('/admin/cms') ? 'active open' : '' %>">
+			<a href="javascript:void(0);" class="menu-link menu-toggle">
+				<i class="menu-icon icon-base ti tabler-settings"></i>
+				<div data-i18n="Settings"><%= __('Settings')  %></div>
+			</a>
+			<ul class="menu-sub">
+				<li class="menu-item <%= currentRoute === '/admin/cms' ? 'active' : '' %>">
+					<a href="/admin/cms" class="menu-link">
+						<div data-i18n="Settings"><%= __('CMS') %></div>
+					</a>
+				</li>
+				
+				<li class="menu-item <%= currentRoute === '/admin/faqs' ? 'active' : '' %>">
+					<a href="/admin/faqs" class="menu-link">
+						<div data-i18n="Settings"><%= __('FAQ') %></div>
+					</a>
+				</li>
+				
+				<li class="menu-item <%= currentRoute === '/admin/contact-us' ? 'active' : '' %>">
+					<a href="/admin/contact-us" class="menu-link">
+						<div data-i18n="Settings"><%= __('Contact Us') %></div>
+					</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</aside>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const currentRoute = '<%= currentRoute %>';
+		const menuItems = document.querySelectorAll('.menu-item');
+
+		menuItems.forEach(item => {
+			if (item.querySelector('.menu-link').getAttribute('href') === currentRoute) {
+				item.classList.add('active');
+			}
+		});
+	});
+</script>

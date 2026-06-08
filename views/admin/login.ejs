@@ -1,0 +1,163 @@
+<div id="login-content">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner py-6">
+            <!-- Login -->
+            <div class="card">
+                <%- include('partials/alert_message') %>
+                <div class="card-body" id="formBlockId">
+                    <!-- Logo -->
+                    <div class="app-brand justify-content-between mb-6">
+                        <span class="d-flex align-items-center">
+                            <img src="/admin/assets/img/logo/logo.png" height="40" width="40" alt="Logo" />
+                            <span class="app-brand-text demo text-heading fw-bold">Excellent Webworld</span>
+                            <!-- <div class="app-brand-text demo text-heading fw-bold ms-2">
+                                <img src="/admin/assets/img/logo/excellentWebworldLogo.svg" height="70" width="70" alt="Logo" />
+                            </div> -->
+                            </span>
+                        <%- include('./partials/language') %>
+                    </div>
+                    <!-- /Logo -->
+                    <h4 class="mb-1"><%= __('Welcome to %s! 👋', appName) %></h4>
+                    <p class="mb-6"><%= __('Please sign-in to your account and start the adventure') %></p>
+                    <% if (typeof error !== 'undefined') { %>
+                        <center><p style="color:red;"><%= error %></p></center>
+                    <% } %>
+                    <form id="formLoginAuthentication" class="mb-4" action="/admin/login" method="POST">
+                        <div class="mb-6 form-control-validation">
+                            <label for="email" class="form-label">
+                                <%= __('Email or Username') %><span class="text-danger">&nbsp;*</span>
+                            </label>
+                            <input
+                            type="text"
+                            class="form-control <%= errors && errors.email ? 'is-invalid' : '' %>"
+                            id="email"
+                            name="email"
+                            value="<%= old ? old.email : '' %>"
+                            placeholder="<%= __('Email or Username') %>"
+                            autofocus />
+                            <% if (errors && errors.email) { %>
+                                <p style="color:red;"><%= errors.email %></p>
+                            <% } %>
+                        </div>
+                        <div class="mb-6 form-password-toggle form-control-validation">
+                            <label class="form-label" for="password">
+                                <%= __('Password') %><span class="text-danger">&nbsp;*</span>
+                            </label>
+                            <div class="input-group input-group-merge">
+                            <input
+                                type="password"
+                                id="password"
+                                class="form-control <%= errors && errors.password ? 'is-invalid' : '' %>"
+                                name="password"
+                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                aria-describedby="password" />
+                            <span class="input-group-text cursor-pointer"><i class="icon-base ti tabler-eye-off"></i></span>
+                            </div>
+                            <% if (errors && errors.password) { %>
+                                <p style="color:red;"><%= errors.password %></p>
+                            <% } %>
+                        </div>
+                        <div class="my-8">
+                            <div class="d-flex justify-content-between">
+                            <div class="form-check mb-0 ms-2">
+                                <input class="form-check-input" type="checkbox" name="remember_me" id="rememberMe" />
+                                <label class="form-check-label" for="rememberMe"> <%= __('Remember Me') %> </label>
+                            </div>
+                            <a href="javascript:void(0);" onclick="showHideContent('forgot-password-content', 'login-content')">
+                                <p class="mb-0"><%= __('Forgot Password?') %></p>
+                            </a>
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <button class="btn btn-primary d-grid w-100" type="submit"><%= __('Login') %></button>
+                        </div>
+                    </form>
+
+                    <!-- <p class="text-center">
+                    <span>New on our platform?</span>
+                    <a href="auth-register-basic.html">
+                        <span>Create an account</span>
+                    </a>
+                    </p> -->
+
+                    <!-- <div class="divider my-6">
+                        <div class="divider-text">or</div>
+                    </div> -->
+
+                    <!-- <div class="d-flex justify-content-center">
+                        <a href="javascript:;" class="btn btn-icon rounded-circle btn-text-facebook me-1_5">
+                            <i class="icon-base ti tabler-brand-facebook-filled icon-20px"></i>
+                        </a>
+
+                        <a href="javascript:;" class="btn btn-icon rounded-circle btn-text-twitter me-1_5">
+                            <i class="icon-base ti tabler-brand-twitter-filled icon-20px"></i>
+                        </a>
+
+                        <a href="javascript:;" class="btn btn-icon rounded-circle btn-text-github me-1_5">
+                            <i class="icon-base ti tabler-brand-github-filled icon-20px"></i>
+                        </a>
+
+                        <a href="javascript:;" class="btn btn-icon rounded-circle btn-text-google-plus">
+                            <i class="icon-base ti tabler-brand-google-filled icon-20px"></i>
+                        </a>
+                    </div> -->
+                </div>
+            </div>
+            <!-- /Login -->
+        </div>
+    </div>
+</div>
+
+<div id="forgot-password-content" style="display: none;">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner py-6">
+            <!-- Forgot Password -->
+            <div class="card">
+                <div class="card-body" id="formBlockId">
+                    <!-- Logo -->
+                    <div class="app-brand justify-content-between mb-6">
+                        <span class="d-flex align-items-center">
+                            <img src="/admin/assets/img/logo/logo.png" height="40" width="40" alt="Logo" />
+                            <span class="app-brand-text demo text-heading fw-bold">Excellent Webworld</span>
+                            <!-- <div class="app-brand-text demo text-heading fw-bold ms-2">
+                                <img src="/admin/assets/img/logo/excellentWebworldLogo.svg" height="70" width="70" alt="Logo" />
+                            </div> -->
+                            </span>
+                        <%- include('./partials/language') %>
+                    </div>
+                    <!-- /Logo -->
+                    <h4 class="mb-1"><%= __('Forgot Password? 🔒') %></h4>
+                    <p class="mb-6"><%= __('Enter your email and we\'ll send you instructions to reset your password') %></p>
+                    <% if (typeof error !== 'undefined') { %>
+                        <center><p style="color:red;"><%= error %></p></center>
+                    <% } %>
+                    <form id="formSendEmail" class="mb-6" action="/admin/forgot-password" method="POST">
+                        <div class="mb-6 form-control-validation">
+                            <label for="sendEmail" class="form-label">
+                                <%= __('Email') %><span class="text-danger">&nbsp;*</span>
+                            </label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            id="sendEmail"
+                            name="email"
+                            placeholder="<%= __('Enter your email') %>"
+                            autofocus />
+                        </div>
+                        <button type="submit" class="btn btn-primary d-grid w-100"><%= __('Send Reset Link') %></button>
+                    </form>
+                    <div class="text-center">
+                    <a href="javascript:void(0);" class="d-flex justify-content-center" onclick="showHideContent('login-content', 'forgot-password-content')">
+                        <i class="icon-base ti tabler-chevron-left scaleX-n1-rtl me-1_5"></i>
+                        <%= __('Back to login') %>
+                    </a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Forgot Password -->
+        </div>
+    </div>
+</div>
+
+<script src="/admin/assets/js/pages/auth/login.js"></script>
+

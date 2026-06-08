@@ -1,0 +1,121 @@
+<link rel="stylesheet" type="text/css" href="/admin/assets/vendor/libs/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="/admin/assets/vendor/libs/chartjs/chartjs.css" />
+<div class="row g-6">
+	<div class="card bg-transparent shadow-none border-0">
+		<div class="card-body row p-0 pb-6 g-6">
+			<div class="col-12 col-lg-12">
+				<div class="d-flex justify-content-between flex-wrap gap-4">
+					<h5 class="mb-2">Welcome back,<span class="h4"> <%= admin.name %> 👋🏻</span></h5>
+					<div id="reportrange" class="datereng-picker d-flex align-items-center gap-2">
+						<i class="fa fa-calendar"></i>
+						<span></span>
+					</div>
+				</div>
+				<div class="col-12 col-lg-5">
+					<p>Your progress this week is Awesome. let's keep it up and get a lot of points reward !</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row g-6 mb-5">
+	<div class="col-lg-3 col-sm-6">
+		<div class="card card-border-shadow-primary h-100">
+			<div class="card-body">
+				<div class="d-flex align-items-center mb-2">
+					<div class="avatar me-4">
+						<span class="avatar-initial rounded bg-label-primary"><i class="icon-base ti tabler-truck icon-28px"></i></span>
+					</div>
+					<h4 class="mb-0">42</h4>
+				</div>
+				<p class="mb-1">On route vehicles</p>
+				<p class="mb-0">
+					<span class="text-heading fw-medium me-2">+18.2%</span>
+					<small class="text-body-secondary">than last week</small>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-sm-6">
+		<div class="card card-border-shadow-warning h-100">
+			<div class="card-body">
+				<div class="d-flex align-items-center mb-2">
+					<div class="avatar me-4">
+						<span class="avatar-initial rounded bg-label-warning"><i class="icon-base ti tabler-alert-triangle icon-28px"></i></span>
+					</div>
+					<h4 class="mb-0">8</h4>
+				</div>
+				<p class="mb-1">Vehicles with errors</p>
+				<p class="mb-0">
+					<span class="text-heading fw-medium me-2">-8.7%</span>
+					<small class="text-body-secondary">than last week</small>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-sm-6">
+		<div class="card card-border-shadow-danger h-100">
+			<div class="card-body">
+				<div class="d-flex align-items-center mb-2">
+					<div class="avatar me-4">
+						<span class="avatar-initial rounded bg-label-danger"><i class="icon-base ti tabler-git-fork icon-28px"></i></span>
+					</div>
+					<h4 class="mb-0">27</h4>
+				</div>
+				<p class="mb-1">Deviated from route</p>
+				<p class="mb-0">
+					<span class="text-heading fw-medium me-2">+4.3%</span>
+					<small class="text-body-secondary">than last week</small>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-sm-6">
+		<div class="card card-border-shadow-info h-100">
+			<div class="card-body">
+				<div class="d-flex align-items-center mb-2">
+					<div class="avatar me-4">
+						<span class="avatar-initial rounded bg-label-info"><i class="icon-base ti tabler-clock icon-28px"></i></span>
+					</div>
+					<h4 class="mb-0">13</h4>
+				</div>
+				<p class="mb-1">Late vehicles</p>
+				<p class="mb-0">
+					<span class="text-heading fw-medium me-2">-2.5%</span>
+					<small class="text-body-secondary">than last week</small>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row g-6">
+	<!-- Line Charts -->
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header header-elements">
+				<!-- <div>
+					<h5 class="card-title mb-0">Statistics</h5>
+					<p class="text-body-secondary">Commercial networks and enterprises</p>
+				</div>
+				<div class="card-header-elements ms-auto py-0">
+					<h5 class="mb-0 me-4">$ 78,000</h5>
+					<span class="badge bg-label-secondary">
+						<i class="icon-base ti tabler-arrow-up icon-xs text-success"></i>
+						<span class="align-middle">37%</span>
+					</span>
+				</div> -->
+			</div>
+			<div class="card-body pt-2">
+				<div id="legendContainer" class="custom-legend"></div>
+				<div>
+					<canvas id="lineChart" class="chartjs" data-height="500"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Line Charts -->
+</div>
+<script src="/admin/assets/vendor/libs/daterangepicker/daterangepicker.js"></script>
+<script src="/admin/assets/vendor/libs/chartjs/chartjs.js"></script>
+<script src="/admin/assets/js/charts-chartjs-legend.js"></script>
+<script src="/admin/assets/js/pages/admin/dashboard.js"></script>

@@ -1,0 +1,320 @@
+<!-- DataTable with Buttons -->
+ <%- include('../../partials/alert_message') %>
+<link rel="stylesheet" href="/admin/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+<link rel="stylesheet" href="/admin/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+<style>
+    .pac-container {
+        z-index: 9999 !important;
+        width: auto !important;
+    }
+</style>
+<div class="card mt-4">
+    <div class="card-datatable table-responsive pt-0">
+        <table id="user-datatable" class="datatables-basic table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th><%= __('ID') %></th>
+                    <th><%= __('Name') %></th>
+                    <th><%= __('Status') %></th>
+                    <th><%= __('Phone') %></th>
+                    <th><%= __('Created At') %></th>
+                    <th><%= __('Action') %></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<!-- Modal to add new record -->
+<div class="offcanvas offcanvas-end" id="add-new-record">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title" id="exampleModalLabel"><%= __('Add New User') %></h5>
+        <button
+        type="button"
+        class="btn-close text-reset"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body flex-grow-1">
+        <form class="add-new-record pt-0 row g-2" id="formAddNewRecord" action="user/store" method="POST" enctype="multipart/form-data">
+            <div class="col-sm-12 form-control-validation">
+                <div class="d-flex align-items-start align-items-sm-center gap-6 mb-3">
+                    <img src="/admin/assets/img/avatars/default.png" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded dt-profile-image" id="uploadedAvatar">
+                    <div class="button-wrapper">
+                        <label for="upload" class="btn btn-primary me-3 mb-4 waves-effect waves-light" tabindex="0">
+                            <span class="d-none d-sm-block"><%= __('Upload new photo') %></span>
+                            <i class="icon-base ti tabler-upload d-block d-sm-none"></i>
+                            <input type="file" name="profile_image" id="upload" class="profile-file-input" hidden accept="image/png, image/jpeg, image/jpg, image/gif">
+                        </label>
+                        <button type="button" class="btn btn-label-secondary profile-image-reset mb-4 waves-effect">
+                            <i class="icon-base ti tabler-restore d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block"><%= __('Reset') %></span>
+                        </button>
+                        <div><%= __('Allowed JPG, GIF or PNG. Max size of 2MB') %></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="name">
+                    <%= __('Full Name') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                <span id="name" class="input-group-text"
+                    ><i class="icon-base ti tabler-user"></i
+                ></span>
+                <input
+                    type="text"
+                    id="name"
+                    class="form-control dt-name left_space_remove"
+                    name="name"
+                    placeholder="<%= __('Enter your name') %>"
+                    aria-label="<%= __('Full Name') %>"
+                    aria-describedby="name" />
+                    <% if (errors && errors.name) { %>
+                        <p style="color:red;"><%= errors.name %></p>
+                    <% } %>
+                </div>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="email">
+                    <%= __('Email') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                <span class="input-group-text"><i class="icon-base ti tabler-mail"></i></span>
+                <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    class="form-control dt-email left_space_remove"
+                    placeholder="<%= __('Enter your email') %>"
+                    aria-label="<%= __('Email') %>" />
+                </div>
+                <div class="form-text text-primary"><%= __('You can use letters, numbers & periods') %></div>
+                <% if (errors && errors.email) { %>
+                    <p style="color:red;"><%= errors.email %></p>
+                <% } %>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+				<label class="form-label" for="phone">
+                    <%= __('Phone Number') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <%- include('../../partials/mobile-field', { 
+                    type: 'tel',
+                    value: '', 
+                    placeholder: __('Enter your phone number'), 
+                    id: 'phone', 
+                    name: 'phone' 
+                }) %>
+                <% if (errors && errors.phone) { %>
+                    <p style="color:red;"><%= errors.phone %></p>
+                <% } %>
+			</div>
+
+            <!-- <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="phone"><%= __('Phone Number') %></label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text"> <i class="icon-base ti tabler-phone"></i></span>
+                        <input type="text" id="phone" name="phone" class="form-control dt-phone left_space_remove" placeholder="<%= __('Enter your phone number') %>" aria-label="<%= __('Phone Number') %>" />
+                        <% if (errors && errors.phone) { %>
+                            <p style="color:red;"><%= errors.phone %></p>
+                        <% } %>
+                </div>
+            </div> -->
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="address">
+                    <%= __('Address') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text"> <i class="icon-base ti tabler-map-pin"></i></span>
+                    <input
+                        type="text"
+                        id="address"
+                        name="address"
+                        class="form-control dt-address left_space_remove"
+                        placeholder="<%= __('Enter your address') %>"
+                        aria-label="<%= __('Address') %>" />
+                        <% if (errors && errors.address) { %>
+                            <p style="color:red;"><%= errors.address %></p>
+                        <% } %>
+                </div>
+                <!-- Hidden/readonly Latitude and Longitude -->
+                <input type="hidden" name="latitude" id="latitude" class="form-control mt-2" readonly />
+                <input type="hidden" name="longitude" id="longitude" class="form-control mt-2" readonly />
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="password">
+                    <%= __('Password') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text"> <i class="icon-base ti tabler-key"></i></span>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-control dt-password left_space_remove"
+                        placeholder="<%= __('Enter your password') %>"
+                        aria-label="<%= __('Password') %>" />
+                        <% if (errors && errors.password) { %>
+                            <p style="color:red;"><%= errors.password %></p>
+                        <% } %>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary data-submit me-sm-4 me-1"><%= __('Submit') %></button>
+                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas"><%= __('Cancel') %></button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal to update record -->
+<div class="offcanvas offcanvas-end" id="update-record">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title" id="exampleModalLabel"><%= __('Edit Record') %></h5>
+        <button
+        type="button"
+        class="btn-close text-reset"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body flex-grow-1">
+        <form class="edit-record pt-0 row g-2" id="formUpdateRecord" action="" method="POST" enctype="multipart/form-data">
+            <div class="col-sm-12 form-control-validation">
+                <div class="d-flex align-items-start align-items-sm-center gap-6 mb-3">
+                    <img src="/admin/assets/img/avatars/1.png" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded dt-profile-image" id="editUploadedAvatar">
+                    <div class="button-wrapper">
+                        <label for="uploadEdit" class="btn btn-primary me-3 mb-4 waves-effect waves-light" tabindex="0">
+                            <span class="d-none d-sm-block"><%= __('Upload new photo') %></span>
+                            <i class="icon-base ti tabler-upload d-block d-sm-none"></i>
+                            <input type="file" name="profile_image" id="uploadEdit" class="edit-profile-file-input" hidden accept="image/png, image/jpeg, image/jpg, image/gif">
+                        </label>
+                        <button type="button" class="btn btn-label-secondary edit-profile-image-reset mb-4 waves-effect">
+                            <i class="icon-base ti tabler-restore d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block"><%= __('Reset') %></span>
+                        </button>
+                        <div><%= __('Allowed JPG, GIF or PNG. Max size of 2MB') %></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="name">
+                    <%= __('Full Name') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                <span id="name" class="input-group-text"
+                    ><i class="icon-base ti tabler-user"></i
+                ></span>
+                <input
+                    type="text"
+                    id="editName"
+                    class="form-control dt-name left_space_remove"
+                    name="name"
+                    placeholder="<%= __('Enter your name') %>"
+                    aria-label="<%= __('Full Name') %>"
+                    aria-describedby="name" />
+                    <% if (errors && errors.name) { %>
+                        <p style="color:red;"><%= errors.name %></p>
+                    <% } %>
+                </div>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="email">
+                    <%= __('Email') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                <span class="input-group-text"><i class="icon-base ti tabler-mail"></i></span>
+                <input
+                    type="text"
+                    id="editEmail"
+                    name="email"
+                    class="form-control dt-email left_space_remove"
+                    placeholder="<%= __('Enter your email') %>"
+                    aria-label="<%= __('Email') %>"
+                    readonly />
+                </div>
+                <div class="form-text text-primary"><%= __('You can use letters, numbers & periods') %></div>
+                <% if (errors && errors.email) { %>
+                    <p style="color:red;"><%= errors.email %></p>
+                <% } %>
+            </div>
+            <div class="col-sm-12 form-control-validation">
+				<label class="form-label" for="editPhone">
+                    <%= __('Phone Number') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <%- include('../../partials/mobile-field-2', { 
+                    type: 'tel',
+                    value: '', 
+                    placeholder: __('Enter your phone number'), 
+                    id: 'editPhone', 
+                    name: 'phone' 
+                }) %>
+                <% if (errors && errors.phone) { %>
+                    <p style="color:red;"><%= errors.phone %></p>
+                <% } %>
+			</div>
+            <!-- <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="phone"><%= __('Phone Number') %></label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text"> <i class="icon-base ti tabler-phone"></i></span>
+                    <input
+                        type="text"
+                        id="editPhone"
+                        name="phone"
+                        class="form-control dt-phone left_space_remove"
+                        placeholder="<%= __('Enter your phone number') %>"
+                        aria-label="<%= __('Phone Number') %>" />
+                        <% if (errors && errors.phone) { %>
+                            <p style="color:red;"><%= errors.phone %></p>
+                        <% } %>
+                </div>
+            </div> -->
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="address">
+                    <%= __('Address') %><span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text"> <i class="icon-base ti tabler-map-pin"></i></span>
+                    <input
+                        type="text"
+                        id="editAddress"
+                        name="address"
+                        class="form-control dt-address left_space_remove"
+                        placeholder="<%= __('Enter your address') %>"
+                        aria-label="<%= __('Address') %>" />
+                        <% if (errors && errors.address) { %>
+                            <p style="color:red;"><%= errors.address %></p>
+                        <% } %>
+                </div>
+                <!-- Hidden/readonly Latitude and Longitude -->
+                <input type="hidden" name="latitude" id="edit_latitude" class="form-control mt-2" readonly />
+                <input type="hidden" name="longitude" id="edit_longitude" class="form-control mt-2" readonly />
+            </div>
+            <div class="col-sm-12 form-control-validation">
+                <label class="form-label" for="password"><%= __('Password') %></label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text"> <i class="icon-base ti tabler-key"></i></span>
+                    <input
+                        type="password"
+                        id="editPassword"
+                        name="password"
+                        class="form-control dt-password left_space_remove"
+                        placeholder="<%= __('Enter your password') %>"
+                        aria-label="<%= __('Password') %>"/>
+                        <% if (errors && errors.password) { %>
+                            <p style="color:red;"><%= errors.password %></p>
+                        <% } %>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary data-submit me-sm-4 me-1"><%= __('Update') %></button>
+                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas"><%= __('Cancel') %></button>
+            </div>
+        </form>
+    </div>
+</div>
+              
+<!-- <hr class="my-12" /> -->
+<script src="/admin/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_MAP_KEY %>&libraries=places"></script>
+<script src="/admin/assets/js/pages/admin/users/index.js"></script>
