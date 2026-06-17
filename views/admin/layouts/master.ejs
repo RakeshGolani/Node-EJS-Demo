@@ -225,7 +225,7 @@
                 i18n = await initI18n("<%= locale %>");
             })();
             
-            window.permissions = <%- JSON.stringify(admin.permissions) %>;
+            window.permissions = <%- JSON.stringify((admin && admin.permissions) || []) %>;
         </script>
 
         <%- script %>
