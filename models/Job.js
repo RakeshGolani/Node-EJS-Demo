@@ -1,5 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
     const Job = sequelize.define('Job', {
+        id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            primaryKey: true,
+            allowNull: false
+        },
         queue: {
             type: DataTypes.STRING,
             allowNull: false,

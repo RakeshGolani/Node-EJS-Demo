@@ -39,7 +39,7 @@ app.locals.moment = require("moment-timezone", {
 
 // Sync DB and start server
 db.sequelize.sync().then(() => {
-    console.log("MySQL connected");
+    console.log("Database connected");
     app.listen(process.env.PORT, () => {
         console.log(`Server running on port ${process.env.APP_URL}`);
         //console.log(`Server running on port http://localhost:${process.env.PORT}`);

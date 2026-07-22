@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 'customer'
         },
         otp: {
-            type: DataTypes.INTEGER(6),
+            type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4(6),
             allowNull: false
         },
         otp_type: {

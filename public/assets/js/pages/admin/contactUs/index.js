@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         </button>`;
 
                     buttons += `
-                        <button class="btn btn-sm btn-outline-danger" onclick="deleteRecord('ContactUs', ${row.id}, 'contact-us-datatable')" title="Delete">
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteRecord('ContactUs', '${row.id}', 'contact-us-datatable')" title="Delete">
                         <i class="icon-base ti tabler-trash"></i>
                         </button>`;    
                     return buttons;   

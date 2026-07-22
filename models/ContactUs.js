@@ -2,6 +2,12 @@ const applyDateFormatting = require('../utils/datetimeFormatter');
 
 module.exports = (sequelize, DataTypes) => {
   const ContactUs = sequelize.define('ContactUs', {
+        id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            primaryKey: true,
+            allowNull: false
+        },
     name: {
         type: DataTypes.STRING,
         allowNull: false,

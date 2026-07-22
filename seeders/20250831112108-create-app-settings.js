@@ -22,6 +22,7 @@ module.exports = {
 
             if (!existing) {
                 await queryInterface.bulkInsert('app_settings', [{
+                    id: require('crypto').randomUUID(),
                     app_name: appSetting.app_name,
                     setting: appSetting.setting,
                     compulsory: appSetting.compulsory,

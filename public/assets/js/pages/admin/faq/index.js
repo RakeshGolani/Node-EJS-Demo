@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     statusSwitch = `
                             <div class="demo-vertical-spacing">
                                 <label class="switch">
-                                    <input type="checkbox" onclick="changeStatus('Faq', ${full.id})" class="switch-input" ${checked} />
+                                    <input type="checkbox" onclick="changeStatus('Faq', '${full.id}')" class="switch-input" ${checked} />
                                     <span class="switch-toggle-slider">
                                         <span class="switch-on"></span> 
                                         <span class="switch-off"></span>
@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         </a>`;
                     
                     buttons += `
-                        <button class="btn btn-sm btn-outline-danger" onclick="deleteRecord('Faq', ${row.id}, 'faqs-datatable')" title="Delete">
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteRecord('Faq', '${row.id}', 'faqs-datatable')" title="Delete">
                         <i class="fa-regular fa-trash-can"></i>
                         </button>`;
                         

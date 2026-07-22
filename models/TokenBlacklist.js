@@ -1,5 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
     const TokenBlacklist = sequelize.define('TokenBlacklist', {
+        id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            primaryKey: true,
+            allowNull: false
+        },
         token: {
             type: DataTypes.TEXT,
             allowNull: false

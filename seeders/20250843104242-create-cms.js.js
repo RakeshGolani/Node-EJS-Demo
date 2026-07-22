@@ -15,16 +15,14 @@ module.exports = {
             const exists = await Cms.findOne({ where: { name: cms.name } });
 
             if (!exists) {
-                await queryInterface.bulkInsert('cms', [{
+                await Cms.create({
                     name: cms.name,
                     name_ar: cms.name_ar,
                     slug: cms.slug,
                     content: cms.content,
                     content_ar: cms.content_ar,
-                    panel: 'user',
-                    createdAt: new Date(),
-                    updatedAt: new Date()
-                }]);
+                    panel: 'user'
+                });
                 console.log(`Cms Inserted: ${cms.name}`);
             } else {
                 console.log(`Cms already exists: ${cms.name}`);

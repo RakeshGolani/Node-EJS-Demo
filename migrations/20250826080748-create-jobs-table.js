@@ -7,7 +7,6 @@ module.exports = {
             id: {
                 type: Sequelize.BIGINT,
                 primaryKey: true,
-                autoIncrement: true,
                 allowNull: false
             },
             queue: {

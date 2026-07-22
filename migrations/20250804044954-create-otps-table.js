@@ -5,8 +5,8 @@ module.exports = {
     async up (queryInterface, Sequelize) {
         await queryInterface.createTable('otps', {
             id: {
-                type: Sequelize.INTEGER,
-                autoIncrement: true,
+                type: Sequelize.UUID,
+            defaultValue: Sequelize.UUIDV4,
                 primaryKey: true,
             },
             phone: {
@@ -19,7 +19,8 @@ module.exports = {
                 defaultValue: 'customer'
             },
             otp: {
-                type: Sequelize.INTEGER(6),
+                type: Sequelize.UUID,
+            defaultValue: Sequelize.UUIDV4(6),
                 allowNull: false
             },
             otp_type: {

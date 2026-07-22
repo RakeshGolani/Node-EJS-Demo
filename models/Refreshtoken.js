@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	RefreshToken.init({
 		user_id: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
 			allowNull: false,
 		},
 		access_token: {

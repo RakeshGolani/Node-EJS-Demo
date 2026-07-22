@@ -5,14 +5,14 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('admins', {
       id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
+        type: Sequelize.UUID,
+            defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
         allowNull: false
       },
       parent_id: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
+        type: Sequelize.UUID,
+        defaultValue: null,
         allowNull: true
       },
       name: {

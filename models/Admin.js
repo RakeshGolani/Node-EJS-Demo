@@ -3,9 +3,15 @@ const bcrypt = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
     const Admin = sequelize.define('Admin', {
+        id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            primaryKey: true,
+            allowNull: false
+        },
         parent_id: {
-            type: DataTypes.INTEGER,
-            defaultValue: 0,
+            type: DataTypes.UUID,
+            defaultValue: null,
             allowNull: true
         },
         name: {
