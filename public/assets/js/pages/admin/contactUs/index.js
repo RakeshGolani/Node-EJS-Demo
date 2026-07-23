@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             },
             {
                 targets: 5,
+                orderable: false,
                 render: function (data, type, row) {
                     if (data) {
                         return '<span class="badge bg-label-success">' + i18next.t('Replied') + '</span>';
@@ -87,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             {
                 targets: 7,
                 className: "text-center",
-                // orderable: false,
+                orderable: false,
                 render: function (data, type, row) {
                     let buttons = '';
                     buttons += `

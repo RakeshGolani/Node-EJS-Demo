@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             {
                 targets: 5,
                 className: "text-center",
-                // orderable: false,
+                orderable: false,
                 render: function (data, type, row) {
                     let buttons = '';
                     buttons += `

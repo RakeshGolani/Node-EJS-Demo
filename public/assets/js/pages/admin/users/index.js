@@ -365,6 +365,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             // },
             {
                 targets: 3,
+                orderable: false,
                 render: function (data, type, full, meta) {
                     const checked = data === "active" ? "checked" : "";
                     let statusSwitch = '';
@@ -400,7 +401,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             {
                 targets: 6,
                 className: "text-center",
-                // orderable: false,
+                orderable: false,
                 render: function (data, type, row) {
                     let buttons = '';
                     buttons += `
