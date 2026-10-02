@@ -1,46 +1,40 @@
-<div class="content-header row align-items-center">
-    <div class="content-header-left col-md-9 col-6 mb-2">
-        <div class="row breadcrumbs-top align-items-center">
-            <div class="col-12 d-flex flex-wrap align-items-center gap-1">
-                <h5 class="content-header-title mb-0 me-2">
-                    <%= title || "" %>
-                </h5>
+<div class="content-header d-flex justify-content-between align-items-center mb-3">
+    <div class="content-header-left d-flex flex-wrap align-items-center gap-2">
+        <h5 class="content-header-title mb-0 fw-bold">
+            <%= title || "" %>
+        </h5>
 
-                <!-- Optional: Vertical Separator -->
-                <div style="width: 1px; height: 20px; background-color: #ccc;"></div>
+        <!-- Vertical Separator (shown on sm and up) -->
+        <span class="d-none d-sm-inline-block" style="width: 1px; height: 18px; background-color: #d9dee3;"></span>
 
-                <!-- Breadcrumb -->
-                <ol class="breadcrumb mb-0 ps-2">
-                    <li class="breadcrumb-item">
-                        <a href="/admin/dashboard">
-                            <i class="menu-icon icon-base ti tabler-home-2"></i>
-                        </a>
-                    </li>
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb mb-0 ps-0">
+            <li class="breadcrumb-item">
+                <a href="/admin/dashboard" class="d-flex align-items-center">
+                    <i class="menu-icon icon-base ti tabler-home-2"></i>
+                </a>
+            </li>
 
-                    <% if (breadcrumb && Array.isArray(breadcrumb) && breadcrumb.length > 0) { %>
-                        <% breadcrumb.forEach(function(menu) { %>
-                        <li class="breadcrumb-item">
-                            <a href="<%= menu.link %>"><%= menu.title %></a>
-                        </li>
-                        <% }); %>
-                    <% } %>
+            <% if (breadcrumb && Array.isArray(breadcrumb) && breadcrumb.length > 0) { %>
+                <% breadcrumb.forEach(function(menu) { %>
+                <li class="breadcrumb-item">
+                    <a href="<%= menu.link %>"><%= menu.title %></a>
+                </li>
+                <% }); %>
+            <% } %>
 
-                    <li class="breadcrumb-item active"><%= title || "" %></li>
-                </ol>
-            </div>
-        </div>
+            <li class="breadcrumb-item active"><%= title || "" %></li>
+        </ol>
     </div>
 
     <% if (addNew) { %>
-        <div class="content-header-right text-end col-md-3 col-6">
-            <div class="mb-1 breadcrumb-right" id="breadcrumb_right_content">
-                <button type="button" id="add_new" class="btn btn-outline-primary">
-                    <span class="d-flex align-items-center gap-2">
-                        <i class="icon-base ti tabler-plus icon-sm"></i> 
-                        <span class="d-none d-md-inline"><%= __('Add New') %></span>
-                    </span>
-                </button>
-            </div>
+        <div class="content-header-right flex-shrink-0 ms-2" id="breadcrumb_right_content">
+            <button type="button" id="add_new" class="btn btn-outline-primary">
+                <span class="d-flex align-items-center gap-2">
+                    <i class="icon-base ti tabler-plus icon-sm"></i> 
+                    <span class="d-none d-md-inline"><%= __('Add New') %></span>
+                </span>
+            </button>
         </div>
-<% } %>
+    <% } %>
 </div>

@@ -121,8 +121,8 @@ const configureApp = (app) => {
         directory: path.join(__dirname, "locales"),  // Where translation files are stored
         defaultLocale: "en",               // Fallback language
         queryParameter: 'lang',            // Allows ?lang=en in URLs
-        autoReload: true,                  // Reload locale files if changed
-        syncFiles: true,                   // Create missing locale files
+        autoReload: process.env.APP_ENV !== 'production', // Reload locale files if changed (dev only)
+        syncFiles: process.env.APP_ENV !== 'production',  // Create missing locale files (dev only)
         cookie: 'lang',                    // Optional: store language in a cookie
     });
 

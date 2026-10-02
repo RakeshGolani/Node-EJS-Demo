@@ -31,9 +31,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     });
 
-    const buttonsArray = [
-        buttons = [],
-    ];
+    
 
     //     buttonsArray.push({
     //         text: `
@@ -51,12 +49,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     $("#faqs-datatable").DataTable({
         processing: true,
         serverSide: true,
-        responsive: true,
+        scrollX: true,
         ajax: "/admin/faqs/get-data",
         columns: [
-            {
-                data:"id",
-            },
             {
                 data: "id",
             },
@@ -72,133 +67,102 @@ document.addEventListener("DOMContentLoaded", async function () {
             {
                 data: "createdAt",
             },
+            {
+                data: "id",
+            },
         ],
         columnDefs: [
             {
-                // For Responsive
-                className: 'control',
-                orderable: false,
-                searchable: false,
-                responsivePriority: 2,
                 targets: 0,
-                render: function (data, type, full, meta) {
-                    return '';
-                }
-            },
-            {
-                targets: 1,
                 visible: false, // Hide ID column
                 searchable: false,
             },
             {
-                targets: 2,
+                targets: 1,
                 render: function (data) {
                     return capitalizeFirst(data);
                 }
             },
             {
-                targets: 3,
+                targets: 2,
                 render: function (data) {
-                    return `<span class="d-block">${data}</span>`;
+                    return `<span class="d-block">${data || ''}</span>`;
                 },
             },
             {
-                targets: 4,
+                targets: 3,
                 render: function (data, type, full, meta) {
                     const checked = data == "active" ? "checked" : "";
-                    let statusSwitch = '';
-                    statusSwitch = `
-                            <div class="demo-vertical-spacing">
-                                <label class="switch">
-                                    <input type="checkbox" onclick="changeStatus('Faq', '${full.id}')" class="switch-input" ${checked} />
-                                    <span class="switch-toggle-slider">
-                                        <span class="switch-on"></span> 
-                                        <span class="switch-off"></span>
-                                    </span>
-                                </label>
-                            </div>
-                        `;
+                    const statusSwitch = `
+                        <div class="demo-vertical-spacing">
+                            <label class="switch">
+                                <input type="checkbox" onclick="changeStatus('Faq', ${full.id})" class="switch-input" ${checked} />
+                                <span class="switch-toggle-slider">
+                                    <span class="switch-on"></span> 
+                                    <span class="switch-off"></span>
+                                </span>
+                            </label>
+                        </div>
+                    `;
                     return statusSwitch;
                 }
             },
             {
-				targets: 5,
-				render: function (data) {
-					return `<span class="d-block">${data}</span>`;
-				},
-			},
+                targets: 4,
+                render: function (data) {
+                    return `<span class="d-block">${data || ''}</span>`;
+                },
+            },
             {
-                targets: 6,
-                className: "text-center",
-                // orderable: false,
+                targets: 5,
+                className: "text-center text-nowrap",
+                orderable: false,
+                searchable: false,
                 render: function (data, type, row) {
-                    let buttons = '';
+                    let buttons = '<div class="d-inline-flex align-items-center gap-1">';
                     buttons += `
-                        <button class="btn btn-sm btn-outline-primary me-1" data-id="${row.id}" data-url="/admin/faq/update/${row.id}" data-bs-toggle="offcanvas" data-bs-target="#update-record" title="Edit">
+                        <button class="btn btn-sm btn-outline-primary" data-id="${row.id}" data-url="/admin/faq/update/${row.id}" data-bs-toggle="offcanvas" data-bs-target="#update-record" title="Edit">
                         <i class="fa-regular fa-pen-to-square"></i>
                         </button>`;
 
                     buttons += `
-                        <a href="/admin/faq/get-details/${row.id}" class="btn btn-sm btn-outline-info me-1" data-id="${row.id}" title="View">
+                        <a href="/admin/faq/get-details/${row.id}" class="btn btn-sm btn-outline-info" data-id="${row.id}" title="View">
                         <i class="fa-solid fa-info"></i>
                         </a>`;
-                    
+                        
                     buttons += `
-                        <button class="btn btn-sm btn-outline-danger" onclick="deleteRecord('Faq', '${row.id}', 'faqs-datatable')" title="Delete">
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteRecord('Faq', ${row.id}, 'faqs-datatable')" title="Delete">
                         <i class="fa-regular fa-trash-can"></i>
                         </button>`;
                         
+                    buttons += '</div>';
                     return buttons;   
                 },
             },
         ],
         order: [[0, "desc"]],
         layout: {
-        // top2Start: {
-        //     rowClass:
-        //     "row card-header flex-column flex-md-row border-bottom mx-0 px-3",
-        //     features: [tableTitle],
-        // },
-        // top2End: {
-        //     features: [
-        //         {
-        //             buttons: buttonsArray,
-        //         },
-        //     ],
-        // },
-        topStart: {
-            rowClass: "row mx-0 px-3 my-0 justify-content-between border-bottom",
-            features: [
-            {
-                pageLength: {
-                menu: [10, 25, 50, 100],
-                text: "Show_MENU_entries",
+            topStart: {
+                rowClass: "row mx-0 px-3 my-0 justify-content-between border-bottom",
+                features: [
+                    {
+                        pageLength: {
+                            menu: [10, 25, 50, 100],
+                            text: "Show_MENU_entries",
+                        },
+                    },
+                ],
+            },
+            topEnd: {
+                search: {
+                    placeholder: "",
                 },
             },
-            ],
-        },
-        topEnd: {
-            features: [
-                {
-                    search: {
-                        placeholder: "",
-                    },
-                },
-                {
-                    buttons: buttonsArray,
-                }
-            ],
-        },
-        // topEnd: {
-        //     search: {
-        //         placeholder: "",
-        //     },
-        // },
-        bottomStart: {
-            rowClass: "row mx-3 justify-content-between",
-            features: ["info"],
-        },
-        bottomEnd: "paging",
+            bottomStart: {
+                rowClass: "row mx-3 justify-content-between",
+                features: ["info"],
+            },
+            bottomEnd: "paging",
         },
         language: {
             paginate: {
@@ -206,43 +170,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 previous: '<i class="icon-base ti tabler-chevron-left scaleX-n1-rtl icon-18px"></i>',
                 first: '<i class="icon-base ti tabler-chevrons-left scaleX-n1-rtl icon-18px"></i>',
                 last: '<i class="icon-base ti tabler-chevrons-right scaleX-n1-rtl icon-18px"></i>',
-            },
-        },
-        responsive: {
-            details: {
-                display: DataTable.Responsive.display.modal({
-                header: function (row) {
-                    const data = row.data();
-                    return "Details of " + data["id"];
-                },
-                }),
-                type: "column",
-                renderer: function (api, rowIdx, columns) {
-                const data = columns
-                    .map(function (col) {
-                    return col.title !== "" // Do not show row in modal popup if title is blank (for check box)
-                        ? `<tr data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
-                                <td>${col.title}:</td>
-                                <td>${col.data}</td>
-                                </tr>`
-                        : "";
-                    })
-                    .join("");
-
-                if (data) {
-                    const div = document.createElement("div");
-                    div.classList.add("table-responsive");
-                    const table = document.createElement("table");
-                    div.appendChild(table);
-                    table.classList.add("table");
-                    table.classList.add("datatables-basic");
-                    const tbody = document.createElement("tbody");
-                    tbody.innerHTML = data;
-                    table.appendChild(tbody);
-                    return div;
-                }
-                return false;
-                },
             },
         },
     });

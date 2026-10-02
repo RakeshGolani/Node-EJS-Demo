@@ -1,19 +1,14 @@
-document.addEventListener("DOMContentLoaded", async function () {
+﻿document.addEventListener("DOMContentLoaded", async function () {
     await window.i18nReady;
 
-    const buttonsArray = [
-        buttons = [],
-    ];
+    
 
     $("#contact-us-datatable").DataTable({
         processing: true,
         serverSide: true,
-        responsive: true,
+        scrollX: true,
         ajax: "/admin/contact-us/get-data",
         columns: [
-            {
-                data:"id",
-            },
             {
                 data: "id",
             },
@@ -32,44 +27,36 @@ document.addEventListener("DOMContentLoaded", async function () {
             {
                 data: "createdAt",
             },
+            {
+                data: "id",
+            },
         ],
         columnDefs: [
             {
-                // For Responsive
-                className: 'control',
-                orderable: false,
-                searchable: false,
-                responsivePriority: 2,
                 targets: 0,
-                render: function (data, type, full, meta) {
-                    return '';
-                }
-            },
-            {
-                targets: 1,
                 visible: false, // Hide ID column
                 searchable: false,
             },
             {
-                targets: 2,
+                targets: 1,
                 render: function (data) {
                     return capitalizeFirst(data);
                 }
             },
             {
-                targets: 3,
+                targets: 2,
                 render: function (data) {
-                    return `<span class="d-block">${data}</span>`;
+                    return `<span class="d-block">${data || ''}</span>`;
                 },
             },
             {
-                targets: 4,
+                targets: 3,
                 render: function (data) {
                     return data ? `<span class="d-block">${data}</span>` : '-';
                 },
             },
             {
-                targets: 5,
+                targets: 4,
                 orderable: false,
                 render: function (data, type, row) {
                     if (data) {
@@ -80,19 +67,20 @@ document.addEventListener("DOMContentLoaded", async function () {
                 },
             },
             {
-				targets: 6,
-				render: function (data) {
-					return `<span class="d-block">${data}</span>`;
-				},
-			},
+                targets: 5,
+                render: function (data) {
+                    return `<span class="d-block">${data || ''}</span>`;
+                },
+            },
             {
-                targets: 7,
-                className: "text-center",
+                targets: 6,
+                className: "text-center text-nowrap",
                 orderable: false,
+                searchable: false,
                 render: function (data, type, row) {
-                    let buttons = '';
+                    let buttons = '<div class="d-inline-flex align-items-center gap-1">';
                     buttons += `
-                        <button class="btn btn-sm btn-outline-primary me-1" data-id="${row.id}" onclick="openReplyModal(${JSON.stringify(row).replace(/"/g, '&quot;')})" title="Reply" data-bs-toggle="modal" data-bs-target="#replyModal">
+                        <button class="btn btn-sm btn-outline-primary" data-id="${row.id}" onclick="openReplyModal(${JSON.stringify(row).replace(/"/g, '&quot;')})" title="Reply" data-bs-toggle="modal" data-bs-target="#replyModal">
                         <i class="icon-base ti tabler-mail-forward"></i>
                         </button>`;
 
@@ -100,41 +88,34 @@ document.addEventListener("DOMContentLoaded", async function () {
                         <button class="btn btn-sm btn-outline-danger" onclick="deleteRecord('ContactUs', '${row.id}', 'contact-us-datatable')" title="Delete">
                         <i class="icon-base ti tabler-trash"></i>
                         </button>`;    
+                    buttons += '</div>';
                     return buttons;   
                 },
             },
         ],
         order: [[0, "desc"]],
-        // ... (rest of the config remains same)
         layout: {
-        top2End: {
-            features: [
-                {
-                    buttons: buttonsArray,
-                },
-            ],
-        },
-        topStart: {
-            rowClass: "row mx-0 px-3 my-0 justify-content-between border-bottom",
-            features: [
-            {
-                pageLength: {
-                menu: [10, 25, 50, 100],
-                text: "Show_MENU_entries",
+            topStart: {
+                rowClass: "row mx-0 px-3 my-0 justify-content-between border-bottom",
+                features: [
+                    {
+                        pageLength: {
+                            menu: [10, 25, 50, 100],
+                            text: "Show_MENU_entries",
+                        },
+                    },
+                ],
+            },
+            topEnd: {
+                search: {
+                    placeholder: "",
                 },
             },
-            ],
-        },
-        topEnd: {
-            search: {
-                placeholder: "",
+            bottomStart: {
+                rowClass: "row mx-3 justify-content-between",
+                features: ["info"],
             },
-        },
-        bottomStart: {
-            rowClass: "row mx-3 justify-content-between",
-            features: ["info"],
-        },
-        bottomEnd: "paging",
+            bottomEnd: "paging",
         },
         language: {
             paginate: {
@@ -144,43 +125,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 last: '<i class="icon-base ti tabler-chevrons-right scaleX-n1-rtl icon-18px"></i>',
             },
         },
-        responsive: {
-            details: {
-                display: $.fn.dataTable.Responsive.display.modal({
-                header: function (row) {
-                    const data = row.data();
-                    return "Details of " + data["name"];
-                },
-                }),
-                type: "column",
-                renderer: function (api, rowIdx, columns) {
-                const data = columns
-                    .map(function (col) {
-                    return col.title !== "" // Do not show row in modal popup if title is blank (for check box)
-                        ? `<tr data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
-                                <td>${col.title}:</td>
-                                <td>${col.data}</td>
-                                </tr>`
-                        : "";
-                    })
-                    .join("");
-
-                if (data) {
-                    const div = document.createElement("div");
-                    div.classList.add("table-responsive");
-                    const table = document.createElement("table");
-                    div.appendChild(table);
-                    table.classList.add("table");
-                    table.classList.add("datatables-basic");
-                    const tbody = document.createElement("tbody");
-                    tbody.innerHTML = data;
-                    table.appendChild(tbody);
-                    return div;
-                }
-                return false;
-                },
-            },
-        },
     });
 
     function capitalizeFirst(str) {
@@ -188,7 +132,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
-    // Initializing FormValidation for Reply Form
     const replyForm = document.getElementById('replyForm');
     const fvReply = FormValidation.formValidation(replyForm, {
         fields: {

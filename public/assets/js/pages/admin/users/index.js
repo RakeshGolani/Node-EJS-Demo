@@ -1,4 +1,4 @@
-const myOffcanvasAdd = document.getElementById("add-new-record");
+﻿const myOffcanvasAdd = document.getElementById("add-new-record");
 const myOffcanvasUpdate = document.getElementById("update-record");
 document.addEventListener("DOMContentLoaded", async function () {
     await window.i18nReady;
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             text: `<span class="d-flex align-items-center"><i class="icon-base ti tabler-printer me-1"></i>Print</span>`,
             className: "dropdown-item",
             exportOptions: {
-            columns: [1, 2, 4, 5],
+            columns: [0, 1, 3, 4],
             format: {
                 body: function (inner, coldex, rowdex) {
                     if (inner == null || inner.length <= 0) return '';
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             text: `<span class="d-flex align-items-center"><i class="icon-base ti tabler-file-text me-1"></i>Csv</span>`,
             className: "dropdown-item",
             exportOptions: {
-            columns: [1, 2, 4, 5],
+            columns: [0, 1, 3, 4],
             format: {
                 body: function (inner, coldex, rowdex) {
                 if (inner.length <= 0) return inner;
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             text: `<span class="d-flex align-items-center"><i class="icon-base ti tabler-file-spreadsheet me-1"></i>Excel</span>`,
             className: "dropdown-item",
             exportOptions: {
-            columns: [1, 2, 4, 5],
+            columns: [0, 1, 3, 4],
             format: {
                 body: function (inner, coldex, rowdex) {
                 if (inner.length <= 0) return inner;
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             text: `<span class="d-flex align-items-center"><i class="icon-base ti tabler-file-description me-1"></i>Pdf</span>`,
             className: "dropdown-item",
             exportOptions: {
-            columns: [1, 2, 4, 5],
+            columns: [0, 1, 3, 4],
             format: {
                 body: function (inner, coldex, rowdex) {
                 if (inner.length <= 0) return inner;
@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             text: `<i class="icon-base ti tabler-copy me-1"></i>Copy`,
             className: "dropdown-item",
             exportOptions: {
-            columns: [1, 2, 4, 5],
+            columns: [0, 1, 3, 4],
             format: {
                 body: function (inner, coldex, rowdex) {
                 if (inner.length <= 0) return inner;
@@ -273,12 +273,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     $("#user-datatable").DataTable({
         processing: true,
         serverSide: true,
-        responsive: true,
+        scrollX: true,
         ajax: "/admin/users/get-data",
         columns: [
-            {
-                data:"id",
-            },
             {
                 data: "id",
             },
@@ -294,27 +291,19 @@ document.addEventListener("DOMContentLoaded", async function () {
             {
                 data: "createdAt",
             },
+            {
+                data: "id",
+            },
         ],
         columnDefs: [
             {
-                // For Responsive
-                className: 'control',
-                orderable: false,
-                searchable: false,
-                responsivePriority: 2,
                 targets: 0,
-                render: function (data, type, full, meta) {
-                    return '';
-                }
-            },
-            {
-                targets: 1,
                 visible: false, // Hide ID column
                 searchable: false,
             },
             {
-            // Avatar image/badge, Name and email
-                targets: 2,
+                // Avatar image/badge, Name and email
+                targets: 1,
                 render: function (data, type, full, meta) {
                     const userImg = full['profile_image'] ? full['profile_image'] : null;
                     const name = full['name'];
@@ -322,29 +311,29 @@ document.addEventListener("DOMContentLoaded", async function () {
                     let output;
 
                     if (userImg) {
-                    // For Avatar image
-                    output = `<img src="${userImg}" alt="Avatar" class="rounded-circle">`;
+                        // For Avatar image
+                        output = `<img src="${userImg}" alt="Avatar" class="rounded-circle">`;
                     } else {
-                    // For Avatar badge
-                    const stateNum = Math.floor(Math.random() * 6);
-                    const states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
-                    const state = states[stateNum];
-                    let initials = name.match(/\b\w/g) || [];
-                    initials = ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
-                    output = `<span class="avatar-initial rounded-circle bg-label-${state}">${initials}</span>`;
+                        // For Avatar badge
+                        const stateNum = Math.floor(Math.random() * 6);
+                        const states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
+                        const state = states[stateNum];
+                        let initials = name.match(/\b\w/g) || [];
+                        initials = ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
+                        output = `<span class="avatar-initial rounded-circle bg-label-${state}">${initials}</span>`;
                     }
 
                     // Creates full output for row
                     const rowOutput = `
                     <div class="d-flex justify-content-start align-items-center user-name">
                         <div class="avatar-wrapper">
-                        <div class="avatar me-2">
-                            ${output}
-                        </div>
+                            <div class="avatar me-2">
+                                ${output}
+                            </div>
                         </div>
                         <div class="d-flex flex-column">
-                        <span class="emp_name text-truncate text-heading fw-medium">${name}</span>
-                        <small class="emp_email text-truncate">${email}</small>
+                            <span class="emp_name text-truncate text-heading fw-medium">${name}</span>
+                            <small class="emp_email text-truncate">${email}</small>
                         </div>
                     </div>
                     `;
@@ -352,147 +341,95 @@ document.addEventListener("DOMContentLoaded", async function () {
                     return rowOutput;
                 }
             },
-            // {
-            //     targets: 1,
-            //     render: function (data, type, row) {
-            //         return `
-            //             <div class="d-flex align-items-center user-name">
-            //                 <img src="${row.profile_image ? row.profile_image : "assets/img/avatars/default.png"}" alt="Avatar" class="rounded-circle me-2 dt-profile-image" width="40" height="40">
-            //                 <span class="fw-medium d-block">${data}</span>
-            //             </div>
-            //         `;
-            //     },
-            // },
             {
-                targets: 3,
+                targets: 2,
                 orderable: false,
                 render: function (data, type, full, meta) {
                     const checked = data === "active" ? "checked" : "";
-                    let statusSwitch = '';
-                    
-                    statusSwitch = `
-                            <div class="">
-                                <label class="switch">
-                                    <input type="checkbox" id="change-status" data-id="${full.id}" data-url="/admin/user/change-status/${full.id}" class="switch-input" ${checked} />
-                                    <span class="switch-toggle-slider">
-                                        <span class="switch-on"></span> 
-                                        <span class="switch-off"></span>
-                                    </span>
-                                </label>
-                            </div>
-                        `;
+                    let statusSwitch = `
+                        <div class="">
+                            <label class="switch">
+                                <input type="checkbox" id="change-status" data-id="${full.id}" data-url="/admin/user/change-status/${full.id}" class="switch-input" ${checked} />
+                                <span class="switch-toggle-slider">
+                                    <span class="switch-on"></span> 
+                                    <span class="switch-off"></span>
+                                </span>
+                            </label>
+                        </div>
+                    `;
 
                     return statusSwitch;
                 },
             },
-
             {
-                targets: 4,
+                targets: 3,
                 render: function (data) {
-                    return `<span class="d-block">${data}</span>`;
+                    return `<span class="d-block">${data || ''}</span>`;
                 },
             },
             {
-				targets: 5,
-				render: function (data) {
-					return `<span class="d-block">${data}</span>`;
-				},
-			},
+                targets: 4,
+                render: function (data) {
+                    return `<span class="d-block">${data || ''}</span>`;
+                },
+            },
             {
-                targets: 6,
-                className: "text-center",
+                targets: 5,
+                className: "text-center text-nowrap",
                 orderable: false,
+                searchable: false,
                 render: function (data, type, row) {
-                    let buttons = '';
+                    let buttons = '<div class="d-inline-flex align-items-center gap-1">';
                     buttons += `
-                        <button class="btn btn-sm btn-outline-primary me-1" data-id="${row.id}" data-url="/admin/user/update/${row.id}" data-bs-toggle="offcanvas" data-bs-target="#update-record" title="Edit">
+                        <button class="btn btn-sm btn-outline-primary" data-id="${row.id}" data-url="/admin/user/update/${row.id}" data-bs-toggle="offcanvas" data-bs-target="#update-record" title="Edit">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </button>`;
                     buttons += `
                         <button class="btn btn-sm btn-outline-danger" id="delete-record" data-id="${row.id}" data-url="/admin/user/delete/${row.id}" title="Delete">
                             <i class="fa-regular fa-trash-can"></i>
                         </button>`;
-                    
+                    buttons += '</div>';
                     return buttons;
                 }
             },
         ],
         order: [[0, "desc"]],
         layout: {
-        topStart: {
-            rowClass: "row mx-0 px-3 my-0 justify-content-between border-bottom",
-            features: [
-            {
-                pageLength: {
-                menu: [10, 25, 50, 100],
-                text: "Show_MENU_entries",
-                },
-            },
-            ],
-        },
-        topEnd: {
-            features: [
-                {
-                    search: {
-                        placeholder: "",
+            topStart: {
+                rowClass: "row mx-0 px-3 my-0 justify-content-between border-bottom",
+                features: [
+                    {
+                        pageLength: {
+                            menu: [10, 25, 50, 100],
+                            text: "Show_MENU_entries",
+                        },
                     },
-                },
-                {
-                    buttons: buttonsArray,
-                }
-            ],
-        },
-        bottomStart: {
-            rowClass: "row mx-3 justify-content-between",
-            features: ["info"],
-        },
-        bottomEnd: "paging",
+                ],
+            },
+            topEnd: {
+                features: [
+                    {
+                        search: {
+                            placeholder: "",
+                        },
+                    },
+                    {
+                        buttons: buttonsArray,
+                    }
+                ],
+            },
+            bottomStart: {
+                rowClass: "row mx-3 justify-content-between",
+                features: ["info"],
+            },
+            bottomEnd: "paging",
         },
         language: {
-        paginate: {
-            next: '<i class="icon-base ti tabler-chevron-right scaleX-n1-rtl icon-18px"></i>',
-            previous:
-            '<i class="icon-base ti tabler-chevron-left scaleX-n1-rtl icon-18px"></i>',
-            first:
-            '<i class="icon-base ti tabler-chevrons-left scaleX-n1-rtl icon-18px"></i>',
-            last: '<i class="icon-base ti tabler-chevrons-right scaleX-n1-rtl icon-18px"></i>',
-        },
-        },
-        responsive: {
-            details: {
-                display: DataTable.Responsive.display.modal({
-                header: function (row) {
-                    const data = row.data();
-                    return "Details of " + data["name"];
-                },
-                }),
-                type: "column",
-                renderer: function (api, rowIdx, columns) {
-                const data = columns
-                    .map(function (col) {
-                    return col.title !== "" // Do not show row in modal popup if title is blank (for check box)
-                        ? `<tr data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
-                                <td>${col.title}:</td>
-                                <td>${col.data}</td>
-                                </tr>`
-                        : "";
-                    })
-                    .join("");
-
-                if (data) {
-                    const div = document.createElement("div");
-                    div.classList.add("table-responsive");
-                    const table = document.createElement("table");
-                    div.appendChild(table);
-                    table.classList.add("table");
-                    table.classList.add("datatables-basic");
-                    const tbody = document.createElement("tbody");
-                    tbody.innerHTML = data;
-                    table.appendChild(tbody);
-                    return div;
-                }
-                return false;
-                },
+            paginate: {
+                next: '<i class="icon-base ti tabler-chevron-right scaleX-n1-rtl icon-18px"></i>',
+                previous: '<i class="icon-base ti tabler-chevron-left scaleX-n1-rtl icon-18px"></i>',
+                first: '<i class="icon-base ti tabler-chevrons-left scaleX-n1-rtl icon-18px"></i>',
+                last: '<i class="icon-base ti tabler-chevrons-right scaleX-n1-rtl icon-18px"></i>',
             },
         },
     });
@@ -512,7 +449,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                             message: i18n.t('Please enter a name containing 2 to 50 characters.')
                         },
                         regexp: {
-                            regexp: /^[a-zA-ZÀ-ÖØ-öø-ÿ\u0600-\u06FF\s]+$/,
+                            regexp: /^[a-zA-Z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF\u0600-\u06FF\s]+$/,
                             message: i18n.t('Name must contain only letters and spaces')
                         },
                         server: {
@@ -697,7 +634,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                             message: i18n.t('Please enter a name containing 2 to 50 characters.')
                         },
                         regexp: {
-                            regexp: /^[a-zA-ZÀ-ÖØ-öø-ÿ\u0600-\u06FF\s]+$/,
+                            regexp: /^[a-zA-Z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF\u0600-\u06FF\s]+$/,
                             message: i18n.t('Name must contain only letters and spaces')
                         },
                         server: {
@@ -1003,5 +940,6 @@ function getUserData(userId) {
 //         }
 //     );
 // }
+
 
 

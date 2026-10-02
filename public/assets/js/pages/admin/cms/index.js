@@ -1,19 +1,14 @@
 document.addEventListener("DOMContentLoaded", async function () {
     await window.i18nReady;
 
-    const buttonsArray = [
-        buttons = [],
-    ];
+    
 
     $("#cms-datatable").DataTable({
         processing: true,
         serverSide: true,
-        responsive: true,
+        scrollX: true,
         ajax: "/admin/cms/get-data",
         columns: [
-            {
-                data:"id",
-            },
             {
                 data: "id",
             },
@@ -26,29 +21,21 @@ document.addEventListener("DOMContentLoaded", async function () {
             {
                 data: "createdAt",
             },
+            {
+                data: "id",
+            },
         ],
         columnDefs: [
             {
-                // For Responsive
-                className: 'control',
-                orderable: false,
-                searchable: false,
-                responsivePriority: 2,
                 targets: 0,
-                render: function (data, type, full, meta) {
-                    return '';
-                }
-            },
-            {
-                targets: 1,
                 visible: false, // Hide ID column
                 searchable: false,
             },
             {
-                targets: 2,
+                targets: 1,
                 render: function (data, type, full, meta) {
-                    const name = full['name'];
-                    const name_ar = full['name_ar'];
+                    const name = full['name'] || '';
+                    const name_ar = full['name_ar'] || '';
 
                     const rowOutput = `
                     <div class="d-flex justify-content-start align-items-center user-name">
@@ -63,65 +50,62 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
             },
             {
-                targets: 3,
+                targets: 2,
                 render: function (data) {
                     return capitalizeFirst(data);
                 }
             },
             {
-				targets: 4,
-				render: function (data) {
-					return `<span class="d-block">${data}</span>`;
-				},
-			},
+                targets: 3,
+                render: function (data) {
+                    return `<span class="d-block">${data || ''}</span>`;
+                },
+            },
             {
-                targets: 5,
-                className: "text-center",
+                targets: 4,
+                className: "text-center text-nowrap",
                 orderable: false,
+                searchable: false,
                 render: function (data, type, row) {
-                    let buttons = '';
+                    let buttons = '<div class="d-inline-flex align-items-center gap-1">';
                     buttons += `
-                        <button type="button" class="btn btn-sm btn-outline-primary me-1" data-id="${row.id}" data-url="/admin/cms/get-details/${row.id}" data-update-url="/admin/cms/update/${row.id}" data-bs-toggle="modal" data-bs-target="#editCmsModal" title="Edit">
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-id="${row.id}" data-url="/admin/cms/get-details/${row.id}" data-update-url="/admin/cms/update/${row.id}" data-bs-toggle="modal" data-bs-target="#editCmsModal" title="Edit">
                         <i class="fa-regular fa-pen-to-square"></i>
                         </button>`;
+
                     buttons += `
-                        <a href="/admin/cms/get-details-view/${row.id}" class="btn btn-sm btn-outline-info me-1" data-id="${row.id}" title="View">
+                        <a href="/admin/cms/get-details-view/${row.id}" class="btn btn-sm btn-outline-info" data-id="${row.id}" title="View">
                         <i class="fa-solid fa-info"></i>
                         </a>`;
-                    return buttons;
+                        
+                    buttons += '</div>';
+                    return buttons;   
                 },
             },
         ],
         order: [[0, "desc"]],
         layout: {
-        top2End: {
-            features: [
-                {
-                    buttons: buttonsArray,
-                },
-            ],
-        },
-        topStart: {
-            rowClass: "row mx-0 px-3 my-0 justify-content-between border-bottom",
-            features: [
-            {
-                pageLength: {
-                menu: [10, 25, 50, 100],
-                text: "Show_MENU_entries",
+            topStart: {
+                rowClass: "row mx-0 px-3 my-0 justify-content-between border-bottom",
+                features: [
+                    {
+                        pageLength: {
+                            menu: [10, 25, 50, 100],
+                            text: "Show_MENU_entries",
+                        },
+                    },
+                ],
+            },
+            topEnd: {
+                search: {
+                    placeholder: "",
                 },
             },
-            ],
-        },
-        topEnd: {
-            search: {
-                placeholder: "",
+            bottomStart: {
+                rowClass: "row mx-3 justify-content-between",
+                features: ["info"],
             },
-        },
-        bottomStart: {
-            rowClass: "row mx-3 justify-content-between",
-            features: ["info"],
-        },
-        bottomEnd: "paging",
+            bottomEnd: "paging",
         },
         language: {
             paginate: {
@@ -129,43 +113,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 previous: '<i class="icon-base ti tabler-chevron-left scaleX-n1-rtl icon-18px"></i>',
                 first: '<i class="icon-base ti tabler-chevrons-left scaleX-n1-rtl icon-18px"></i>',
                 last: '<i class="icon-base ti tabler-chevrons-right scaleX-n1-rtl icon-18px"></i>',
-            },
-        },
-        responsive: {
-            details: {
-                display: DataTable.Responsive.display.modal({
-                header: function (row) {
-                    const data = row.data();
-                    return "Details of " + data["name"];
-                },
-                }),
-                type: "column",
-                renderer: function (api, rowIdx, columns) {
-                const data = columns
-                    .map(function (col) {
-                    return col.title !== "" // Do not show row in modal popup if title is blank (for check box)
-                        ? `<tr data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
-                                <td>${col.title}:</td>
-                                <td>${col.data}</td>
-                                </tr>`
-                        : "";
-                    })
-                    .join("");
-
-                if (data) {
-                    const div = document.createElement("div");
-                    div.classList.add("table-responsive");
-                    const table = document.createElement("table");
-                    div.appendChild(table);
-                    table.classList.add("table");
-                    table.classList.add("datatables-basic");
-                    const tbody = document.createElement("tbody");
-                    tbody.innerHTML = data;
-                    table.appendChild(tbody);
-                    return div;
-                }
-                return false;
-                },
             },
         },
     });

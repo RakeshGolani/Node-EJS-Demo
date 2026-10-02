@@ -1,17 +1,25 @@
 <!-- DataTable with Buttons -->
  <%- include('../../partials/alert_message') %>
 <link rel="stylesheet" href="/admin/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
-<link rel="stylesheet" href="/admin/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
 <link rel="stylesheet" href="/admin/assets/vendor/libs/quill/typography.css" />
 <link rel="stylesheet" href="/admin/assets/vendor/libs/highlight/highlight.css" />
 <link rel="stylesheet" href="/admin/assets/vendor/libs/quill/katex.css" />
 <link rel="stylesheet" href="/admin/assets/vendor/libs/quill/editor.css" />
-<div class="card">
-    <div class="card-datatable table-responsive pt-0">
-        <table id="cms-datatable" class="datatables-basic table">
+<style>
+    @media (max-width: 767.98px) {
+        div.dt-container .dt-buttons {
+            display: flex !important;
+            justify-content: center !important;
+            margin: 0.5rem auto !important;
+            text-align: center !important;
+        }
+    }
+</style>
+<div class="card mt-4">
+    <div class="card-datatable pt-0">
+        <table id="cms-datatable" class="datatables-basic table text-nowrap">
             <thead>
                 <tr>
-                    <th></th>
                     <th><%= __('ID') %></th>
                     <th><%= __('Name') %></th>
                     <th><%= __('Role') %></th>
