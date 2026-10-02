@@ -132,7 +132,7 @@ const configureApp = (app) => {
     // Set locale for views
     app.use((req, res, next) => {
         res.locals.local = req.getLocale();
-        res.locals.appName = res.__(process.env.APP_NAME || 'The Russian Tour');
+        res.locals.appName = res.__(process.env.APP_NAME || 'Excellent Webworld');
         res.locals.theme = theme;
         next();
     });
