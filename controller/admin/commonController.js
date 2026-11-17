@@ -5,7 +5,8 @@ class commonController
 {
     static async changeStatus(req, res) 
     {
-        const { id,model } = req.query;
+        const id = req.query.id || req.body.id;
+        const model = req.query.model || req.body.model;
 
         const result = await utilsChangeStatus(req, model, id, 'status');
         res.json(result);
@@ -13,7 +14,8 @@ class commonController
 
     static async deleteRecord(req, res)
     {
-        const { id,model } = req.query;
+        const id = req.query.id || req.body.id;
+        const model = req.query.model || req.body.model;
 
         const result = await utilsDeleteRecord(req, model, id);
         res.json(result);

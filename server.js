@@ -1,3 +1,11 @@
+// Override deprecated util.isArray to prevent DEP0044 warning from legacy packages like connect-flash
+const util = require('util');
+Object.defineProperty(util, 'isArray', {
+    value: Array.isArray,
+    configurable: true,
+    writable: true,
+});
+
 require('dotenv').config();
 const express = require('express');
 const db = require('./models');
